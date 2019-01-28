@@ -1,0 +1,153 @@
+<!doctype html>
+<html class="no-js" lang="fi">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Liikenne.live - Asema</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!--<link rel="manifest" href="site.webmanifest">-->
+    <!--<link rel="apple-touch-icon" href="icon.png">-->
+    <!-- Place favicon.ico in the root directory -->
+
+    <link rel="stylesheet" href="css/normalize.min.css">
+
+    <!--Google material icons font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,900" rel="stylesheet">
+
+    <!--Google ads-->
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({
+        google_ad_client: "ca-pub-1422283744181947",
+        enable_page_level_ads: true
+      });
+    </script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-132395802-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-132395802-1');
+    </script>
+
+
+    <script src="js/vendor/modernizr-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.3.1.min.js"><\/script>')</script>
+
+    <!--Mapbox-->
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet' />
+
+    <!--Foundation-->
+    <!-- Compressed CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.5.1/dist/css/foundation.min.css" integrity="sha256-1mcRjtAxlSjp6XJBgrBeeCORfBp/ppyX4tsvpQVCcpA= sha384-b5S5X654rX3Wo6z5/hnQ4GBmKuIJKMPwrJXn52ypjztlnDK2w9+9hSMBz/asy9Gw sha512-M1VveR2JGzpgWHb0elGqPTltHK3xbvu3Brgjfg4cg5ZNtyyApxw/45yHYsZ/rCVbfoO5MSZxB241wWq642jLtA==" crossorigin="anonymous">
+    <!-- Compressed JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.5.1/dist/js/foundation.min.js" integrity="sha256-WUKHnLrIrx8dew//IpSEmPN/NT3DGAEmIePQYIEJLLs= sha384-53StQWuVbn6figscdDC3xV00aYCPEz3srBdV/QGSXw3f19og3Tq2wTRe0vJqRTEO sha512-X9O+2f1ty1rzBJOC8AXBnuNUdyJg0m8xMKmbt9I3Vu/UOWmSg5zG+dtnje4wAZrKtkopz/PEDClHZ1LXx5IeOw==" crossorigin="anonymous"></script>
+
+    <!--<script src="http://www.hivemq.com/demos/websocket-client/js/mqttws31.js" type="text/javascript"></script>-->
+
+    <link rel="stylesheet" href="css/asema.min.css">
+
+</head>
+
+<body>
+<!--[if lte IE 9]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+<![endif]-->
+
+<!--Title bar-->
+<div class="top-barDiv">
+    <div class="title-bar" data-responsive-toggle="responsive-menu" data-hide-for="medium">
+        <button class="menu-icon" type="button" data-toggle="responsive-menu"></button>
+        <div class="title-bar-title"></div>
+    </div>
+    <div class="top-bar" id="responsive-menu">
+        <div class="top-bar-left">
+            <ul class="dropdown menu" data-dropdown-menu>
+                <li><a class="menu-text" href="/">Liikenne.live</a></li>
+                <!--<li class="has-submenu">
+                    <a class="topBarLink" style="color: white;">Karttapohja</a>
+                    <ul class="submenu menu vertical" data-submenu>
+                        <li><a onclick="changeMap('railwayMap')">Raidekartta</a></li>
+                        <hr>
+                        <li><a onclick="changeMap('streets')">Kadut</a></li>
+                        <li><a onclick="changeMap('Light')">Kirkas</a></li>
+                        <li><a onclick="changeMap('Light')">Vaalea/tumma</a></li>
+                        <hr>
+                        <li><a onclick="changeMap('satellite')">Satelliitti</a></li>
+                        <hr>
+                        <li>
+                            <div id="stationsSelect">
+                                <label for="stationsCheck" id="stationsCheckText">Näytä asemat:</label>
+                                <input type="checkbox" id="stationsCheck" checked="checked">
+                            </div>
+                        </li>
+                    </ul>
+                </li>-->
+            </ul>
+        </div>
+        <div class="top-bar-right">
+            <ul class="menu">
+                <li>
+                    <a href="#0" class="topBarLink info">i</a>
+                </li>
+                <li><input type="search" id="searchInputBox" placeholder="Etsi junaa tai liikennepaikkaa"></li>
+                <li><button type="button" id="searchButton" onclick="searchPressed()" class="button"><i
+                        class="material-icons">search</i></button></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<h1 id="StationNameGrid">
+    <div><div class="HeaderLine LineLeft"></div></div>
+    <span id="stationNameSpan">Kouvola</span>
+    <div>
+        <div class="HeaderLine LineRight"></div>
+    </div>
+</h1>
+
+<!--Grid and info boxes-->
+<div class="grid">
+    <div class="item">
+        <div class="content">
+            <table id="stationTable">
+                <tr style="border-bottom: 2px solid gray">
+                    <th>Juna</th>
+                    <th>Saapuu</th>
+                    <th>Raide</th>
+                    <th>Lähtee</th>
+                </tr>
+                <tr>
+                    <td>IC 50</td>
+                    <td>13.32 (13.30)</td>
+                    <td>13.44 (13.40)</td>
+                    <td>5</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div style="color: gray;font-size: 0.8rem;">Tiedot perustuvat Traffic Management Finlandin avoimeen dataan
+        <a href="http://creativecommons.org/licenses/by/4.0/">CC 4.0 BY</a></div>
+
+</div>
+
+
+<script>
+  $(document).foundation();
+</script>
+
+<script src="js/funktiot.js"></script>
+<script src="js/asema.js"></script>
+<script src="js/masonry.min.js"></script>
+
+</body>
+
+</html>

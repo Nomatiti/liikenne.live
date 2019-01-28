@@ -1,0 +1,580 @@
+/*
+ * What follows is the result of much research on cross-browser styling.
+ * Credit left inline and big thanks to Nicolas Gallagher, Jonathan Neal,
+ * Kroc Camen, and the H5BP dev community and team.
+ */
+
+/* ==========================================================================
+   Base styles: opinionated defaults
+   ========================================================================== */
+
+html {
+    color: #222;
+    font-size: 1em;
+    line-height: 1.4;
+}
+
+/*
+ * Remove text-shadow in selection highlight:
+ * https://twitter.com/miketaylr/status/12228805301
+ *
+ * Vendor-prefixed and regular ::selection selectors cannot be combined:
+ * https://stackoverflow.com/a/16982510/7133471
+ *
+ * Customize the background color to match your design.
+ */
+
+::selection {
+    background: #b3d4fc;
+    text-shadow: none;
+}
+
+/*
+ * A better looking default horizontal rule
+ */
+
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 1em 0;
+    padding: 0;
+}
+
+/*
+ * Remove the gap between audio, canvas, iframes,
+ * images, videos and the bottom of their containers:
+ * https://github.com/h5bp/html5-boilerplate/issues/440
+ */
+
+audio,
+canvas,
+iframe,
+img,
+svg,
+video {
+    vertical-align: middle;
+}
+
+/*
+ * Remove default fieldset styles.
+ */
+
+fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/*
+ * Allow only vertical resizing of textareas.
+ */
+
+textarea {
+    resize: vertical;
+}
+
+/* ==========================================================================
+   Browser Upgrade Prompt
+   ========================================================================== */
+
+.browserupgrade {
+    margin: 0.2em 0;
+    background: #ccc;
+    color: #000;
+    padding: 0.2em 0;
+}
+
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+
+html {
+    background-color: #eaeaea;
+}
+#pageContent {
+    max-width: 80rem;
+    margin: auto;
+    background-color: #ffffff;
+}
+#frontImage {
+    height: 100vh;
+    width: 100%;
+    object-fit: cover;
+    max-height: 1300px;
+}
+#Header {
+    font-size: 7.5vmin;
+    font-weight: bold;
+    font-family: 'Lato', sans-serif;
+    color: #FF2C1D;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    top: 1vmin;
+    left: 3vmin;
+}
+#infoText {
+    position: absolute;
+    left: 14vmin;
+    bottom: 14vmin;
+    z-index: 10;
+    font-size: 6.75vmin;
+    color: white;
+    font-weight: bold;
+    width: 60vmin;
+    line-height: 1.1;
+    font-family: 'Playfair Display', serif;
+}
+#selaaAlas {
+    position: absolute;
+    bottom: 5vmin;
+    font-size: 2.5vmin;
+    color: white;
+    font-weight: bold;
+    line-height: 0.9;
+    font-family: 'Lato', sans-serif;
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+}
+#topLinkDiv {
+    position: absolute;
+    top: 3vmin;
+    right: 0vmin;
+    color: white;
+    display: flex;
+    font-size: 3.25vmin;
+    font-family: 'Lato', sans-serif;
+    font-weight: bold;
+}
+.topLink {
+    margin-right: 4vmin;
+    cursor: pointer;
+}
+#burgerMenu {
+    position: absolute;
+    top: 3.5vmin;
+    right: 3.5vmin;
+    color: white;
+    cursor: pointer;
+    display: none;
+}
+#palvelut {
+    display: grid;
+    grid-gap: 6vmin;
+    grid-template-columns: repeat(auto-fill, minmax(200px,1fr));
+    padding: 10vmin;
+}
+.item {
+    background-color: #fbf7f7;
+    border-radius: 1.5rem;
+    padding: 2rem;
+    border: 1px solid #e7e3e3;
+    box-shadow: 0.3rem 0.3rem 0.5rem whitesmoke;
+    text-align: center;
+    font-family: "Lato", sans-serif;
+    color: #2f2f2f;
+}
+.palvelutImage {
+    width: 100%;
+}
+.link {
+    cursor: pointer;
+}
+.PalvelutLink {
+    font-size: 1.15rem;
+    font-weight: bold;
+    /*text-decoration: none;*/
+    margin-top: 1.2rem;
+    display: block;
+}
+.PalvelutLink:link {
+    color: #2f2f2f;
+}
+.PalvelutLink:visited {
+    color: #2f2f2f;
+}
+.PalvelutLink:hover {
+    color: #212121;
+}
+.header {
+    font-family: 'Lato', sans-serif;
+    margin-bottom: 0.5rem;
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: #067bc2;
+    margin-right: 20%;
+    margin-left: 20%;
+    text-align: center;
+    border-bottom: 5px dotted #067bc2;
+    margin-bottom: 1.75rem;
+}
+.noUnderline {
+    border: none;
+}
+hr {
+    width: 90%;
+    margin: auto;
+}
+.textBox {
+    text-align: justify;
+    text-justify: inter-character;
+}
+.quiz {
+    margin: auto;
+}
+.accordion {
+    background-color: #26547c;
+    color: #f5f0f6;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+    transition: 0.4s;
+    border-radius: 30px;
+    margin-top: 0.45rem;
+    font-weight: bold;
+}
+
+.active, .accordion:hover {
+    background-color: #067bc2;
+}
+
+.panel {
+    background-color: whitesmoke;
+    color: #2f2f2f;
+    border-radius: 0 0 30px 30px;
+    padding: 0 18px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+}
+.activeTop {
+    border-radius: 30px 30px 0 0;
+}
+
+.twoBoxContent {
+    display: grid;
+    grid-template-columns: 1fr 300px 265px;
+    grid-gap: 8vmin;
+}
+.textBox {
+    margin: 0;
+    color: #2f2f2f;
+}
+.section {
+    margin: 6vmin;
+    font-family: 'Lato', sans-serif;
+}
+#iconLisence {
+    text-align: center;
+    font-family: "Lato", sans-serif;
+    color: #2f2f2f;
+    margin-bottom: 0.5rem;
+}
+.footer {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto 1fr 1fr;
+    grid-template-areas: "empty year name käyttöehdot empty2";
+    grid-gap: 0.8rem;
+    font-family: 'Lato', sans-serif;
+    margin: 1rem 0 1rem 0;
+    text-align: center;
+    padding-bottom: 1rem;
+}
+#year {
+    grid-area: year;
+    margin: 0;
+}
+#name {
+    grid-area: name;
+    margin: 0;
+    font-weight: bold;
+}
+#käyttöehdot {
+    grid-area: käyttöehdot;
+    margin: 0;
+}
+
+#cookiesDiv {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 20%;
+    background-color: #0e0e0e;
+    color: whitesmoke;
+    font-family: 'Lato';
+    padding: 1rem;
+    overflow: scroll;
+    border-radius: 1rem 0 0 0;
+}
+#hideCookiesDiv {
+    cursor: pointer;
+    margin: 0;
+    margin-bottom: 2%;
+}
+#cookiesLink:link {
+    color: white;
+}
+#cookiesLink:visited {
+    color: #b8b8b8;
+}
+#cookiesLink:hover {
+    color: #e8e8e8;
+}
+
+.historiaText {
+    text-align: justify;
+}
+.historiaHeader {
+    text-align: center;
+}
+
+@media print, screen and (max-width: 70rem) {
+    .twoBoxContent {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media print, screen and (max-width: 50rem) {
+    .twoBoxContent {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media print, screen and (max-width: 50rem) {
+    #cookiesDiv {
+        width: 30%;
+        height: 10%;
+        font-size: 0.8rem;
+    }
+}
+@media print, screen and (max-width: 20rem) {
+    #cookiesDiv {
+        width: 20%;
+        height: 10%;
+        font-size: 0.75rem;
+        padding: 0.4rem;
+    }
+}
+
+@media print, screen and (max-width: 40em) {
+    .header {
+        margin-right: 10%;
+        margin-left: 10%;
+    }
+    .textBox {
+        margin-left: 1rem;
+        margin-right: 1rem;
+    }
+    .footer {
+        grid-template-columns: 1fr auto 1fr;
+        grid-template-rows: 1fr 1fr 1fr;
+        grid-template-areas: "empty year empty1"
+                            "empty3 name empty4"
+                            "empty5 käyttöehdot empty6";
+    }
+}
+@media print, screen and (min-width: 50rem) {
+    #palvelut {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+@media print, screen and (max-width: 40rem) {
+    #infoText {
+        width: 85vmin;
+        left: 8vmin;
+        bottom: 40vh;
+    }
+    #topLinkDiv {
+        display: none;
+        top: 10vmin;
+        font-size: 5.5vmin;
+    }
+    .topLink {
+        margin-top: 1rem;
+    }
+    #burgerMenu {
+        display: block;
+    }
+}
+
+.show {
+    display: inline-block !important;
+}
+
+/* ==========================================================================
+   Helper classes
+   ========================================================================== */
+
+/*
+ * Hide visually and from screen readers
+ */
+
+.hidden {
+    display: none !important;
+}
+
+/*
+ * Hide only visually, but have it available for screen readers:
+ * https://snook.ca/archives/html_and_css/hiding-content-for-accessibility
+ *
+ * 1. For long content, line feeds are not interpreted as spaces and small width
+ *    causes content to wrap 1 word per line:
+ *    https://medium.com/@jessebeach/beware-smushed-off-screen-accessible-text-5952a4c2cbfe
+ */
+
+.visuallyhidden {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+    white-space: nowrap; /* 1 */
+}
+
+/*
+ * Extends the .visuallyhidden class to allow the element
+ * to be focusable when navigated to via the keyboard:
+ * https://www.drupal.org/node/897638
+ */
+
+.visuallyhidden.focusable:active,
+.visuallyhidden.focusable:focus {
+    clip: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    position: static;
+    width: auto;
+    white-space: inherit;
+}
+
+/*
+ * Hide visually and from screen readers, but maintain layout
+ */
+
+.invisible {
+    visibility: hidden;
+}
+
+/*
+ * Clearfix: contain floats
+ *
+ * For modern browsers
+ * 1. The space content is one way to avoid an Opera bug when the
+ *    `contenteditable` attribute is included anywhere else in the document.
+ *    Otherwise it causes space to appear at the top and bottom of elements
+ *    that receive the `clearfix` class.
+ * 2. The use of `table` rather than `block` is only necessary if using
+ *    `:before` to contain the top-margins of child elements.
+ */
+
+.clearfix:before,
+.clearfix:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+/* ==========================================================================
+   EXAMPLE Media Queries for Responsive Design.
+   These examples override the primary ('mobile first') styles.
+   Modify as content requires.
+   ========================================================================== */
+
+@media only screen and (min-width: 35em) {
+    /* Style adjustments for viewports that meet the condition */
+}
+
+@media print,
+(min-resolution: 1.25dppx),
+(min-resolution: 120dpi) {
+    /* Style adjustments for high resolution devices */
+}
+
+/* ==========================================================================
+   Print styles.
+   Inlined to avoid the additional HTTP request:
+   https://www.phpied.com/delay-loading-your-print-css/
+   ========================================================================== */
+
+@media print {
+    *,
+    *:before,
+    *:after {
+        background: transparent !important;
+        color: #000 !important; /* Black prints faster */
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+
+    a,
+    a:visited {
+        text-decoration: underline;
+    }
+
+    a[href]:after {
+        content: " (" attr(href) ")";
+    }
+
+    abbr[title]:after {
+        content: " (" attr(title) ")";
+    }
+
+    /*
+     * Don't show links that are fragment identifiers,
+     * or use the `javascript:` pseudo protocol
+     */
+
+    a[href^="#"]:after,
+    a[href^="javascript:"]:after {
+        content: "";
+    }
+
+    pre {
+        white-space: pre-wrap !important;
+    }
+    pre,
+    blockquote {
+        border: 1px solid #999;
+        page-break-inside: avoid;
+    }
+
+    /*
+     * Printing Tables:
+     * http://css-discuss.incutio.com/wiki/Printing_Tables
+     */
+
+    thead {
+        display: table-header-group;
+    }
+
+    tr,
+    img {
+        page-break-inside: avoid;
+    }
+
+    p,
+    h2,
+    h3 {
+        orphans: 3;
+        widows: 3;
+    }
+
+    h2,
+    h3 {
+        page-break-after: avoid;
+    }
+}
