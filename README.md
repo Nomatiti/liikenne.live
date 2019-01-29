@@ -19,6 +19,6 @@ Tämä projekti on lopputulos
 
 Nettisivun on tarkistettu toimivan ainakin kyseisten selainten uusimmilla vesiolla.
 
-##Lisenssi
+## Lisenssi
 
 Sivu on rakennettu HTML5 Boilerplate pohjalta jonka lisenssi löytyy [MIT license](LICENSE.txt).
