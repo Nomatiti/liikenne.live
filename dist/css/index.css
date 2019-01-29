@@ -280,7 +280,7 @@ hr {
 .footer {
     display: grid;
     grid-template-columns: 1fr 1fr auto 1fr 1fr;
-    grid-template-areas: "empty year name käyttöehdot empty2";
+    grid-template-areas: "empty year name käyttöehdot github";
     grid-gap: 0.8rem;
     font-family: 'Lato', sans-serif;
     margin: 1rem 0 1rem 0;
@@ -374,10 +374,11 @@ hr {
     }
     .footer {
         grid-template-columns: 1fr auto 1fr;
-        grid-template-rows: 1fr 1fr 1fr;
+        grid-template-rows: 1fr 1fr 1fr 1fr;
         grid-template-areas: "empty year empty1"
                             "empty3 name empty4"
-                            "empty5 käyttöehdot empty6";
+                            "empty5 käyttöehdot empty6"
+                            "empty7 github empty8";
     }
 }
 @media print, screen and (min-width: 50rem) {
