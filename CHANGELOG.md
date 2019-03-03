@@ -1,3 +1,6 @@
+### 0.6.0 (3.3.2019)
+* Maaliikenteen seuranta lisätty!
+
 ### 0.5.2 (29.1.2019)
 * Lisätty github-linkki etusivun alalaitaan
 * Korjattu kielioppivirheitä ja muokattu lauseita

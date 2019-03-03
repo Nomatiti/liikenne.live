@@ -2,13 +2,20 @@
 
 Liikenne.live:llä seuraat liikennettä raiteilla.
 
-Tämä projekti on lopputulos
+
 
 
 ## Ominaisuudet
 
 * Tällä hetkellä junanäkymä toimii ja yksittäisen junan näkymä
+* HSL:seuranta toimii
 * Lisäksi etusivu toimii
+
+## Todo
+
+* Asemalle saapuvien junien näkymä
+* Raide ja muita tietoja yksittäisen junan näkymään
+* Meriliikenteen seuranta
 
 
 ## Selaintuki
