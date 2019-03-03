@@ -1,0 +1,311 @@
+<!doctype html>
+<html class="no-js" lang="fi">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Liikenne.live - HSL</title>
+    <meta name="description" content="Suomen meriliikenne livenä kartalla">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, shrink-to-fit=no">
+
+    <!--<link rel="manifest" href="site.webmanifest">-->
+    <!--<link rel="apple-touch-icon" href="icon.png">-->
+    <!-- Place favicon.ico in the root directory -->
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=JykNmdRdGY">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=JykNmdRdGY">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=JykNmdRdGY">
+    <link rel="manifest" href="/site.webmanifest?v=JykNmdRdGY">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg?v=JykNmdRdGY" color="#205b8f">
+    <link rel="shortcut icon" href="/favicon.ico?v=JykNmdRdGY">
+    <meta name="apple-mobile-web-app-title" content="Liikenne.live">
+    <meta name="application-name" content="Liikenne.live">
+    <meta name="msapplication-TileColor" content="#2d89ef">
+    <meta name="theme-color" content="#ffffff">
+
+    <link rel="stylesheet" href="css/normalize.min.css">
+
+    <!--Google material icons font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,900" rel="stylesheet">
+
+    <!--Google ads-->
+    <!--TODO: remove comment-->
+    <!--<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({
+            google_ad_client: "ca-pub-1422283744181947",
+            enable_page_level_ads: true
+        });
+    </script>-->
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <!--TODO: remove comment-->
+    <!--<script async src="https://www.googletagmanager.com/gtag/js?id=UA-132395802-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-132395802-1', {'site_speed_sample_rate': 25});
+    </script>-->
+
+
+    <script src="js/vendor/modernizr-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.3.1.min.js"><\/script>')</script>
+
+    <!--Mapbox-->
+    <script src='https://api.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet'/>
+
+    <!--Foundation-->
+    <!-- Compressed CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.5.1/dist/css/foundation.min.css" integrity="sha256-1mcRjtAxlSjp6XJBgrBeeCORfBp/ppyX4tsvpQVCcpA= sha384-b5S5X654rX3Wo6z5/hnQ4GBmKuIJKMPwrJXn52ypjztlnDK2w9+9hSMBz/asy9Gw sha512-M1VveR2JGzpgWHb0elGqPTltHK3xbvu3Brgjfg4cg5ZNtyyApxw/45yHYsZ/rCVbfoO5MSZxB241wWq642jLtA==" crossorigin="anonymous">
+    <!-- Compressed JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.5.1/dist/js/foundation.min.js" integrity="sha256-WUKHnLrIrx8dew//IpSEmPN/NT3DGAEmIePQYIEJLLs= sha384-53StQWuVbn6figscdDC3xV00aYCPEz3srBdV/QGSXw3f19og3Tq2wTRe0vJqRTEO sha512-X9O+2f1ty1rzBJOC8AXBnuNUdyJg0m8xMKmbt9I3Vu/UOWmSg5zG+dtnje4wAZrKtkopz/PEDClHZ1LXx5IeOw==" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/HSL.min.css">
+
+    <!--<script src="http://www.hivemq.com/demos/websocket-client/js/mqttws31.js" type="text/javascript"></script>-->
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js" type="text/javascript"></script>-->
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.2/mqttws31.min.js"-->
+            <!--type="text/javascript"></script>-->
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js" type="text/javascript"></script>
+
+</head>
+
+<body>
+<!--[if lte IE 9]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+<![endif]-->
+
+<div id="loading">
+    <div class="loader blueLoader"></div>
+</div>
+
+<div id="alertBox" class="hidden">
+    <div id="cantLoadDiv">
+        <h4 style="font-weight: bold; color: #067bc2;">Ongelma tietojen latauksessa</h4>
+        <i class="material-icons" id="error">
+            error_outline
+        </i>
+        <p style="text-align: justify;">Ongelmia yhteyden muodostamisessa. Ongelma voi olla Traffic
+            Management Finlandin palvelussa tai netissäsi on estetty palvelun tarvitsema portti. Voit kokeilla <a href="javascript:location.reload();">auttaisiko sivun
+                päivittäminen</a>.</p>
+    </div>
+</div>
+
+<div id="connectionError" class="hidden">
+    <h4 style="font-weight: bold;" id="connectionErrorHeader">Yhteys katkesi</h4>
+    <p id="connectionErrorText">Yritetään yhdistää uudestaan</p>
+</div>
+
+<!--Title bar-->
+<div class="top-barDiv" id="topBar">
+    <div class="title-bar barBlue" data-responsive-toggle="responsive-menu" data-hide-for="medium">
+        <button class="menu-icon" type="button" data-toggle="responsive-menu"></button>
+        <div class="title-bar-title"></div>
+    </div>
+    <div class="top-bar barBlue" id="responsive-menu">
+        <div class="top-bar-left">
+            <ul class="dropdown menu barBlue" data-dropdown-menu>
+                <li><a class="menu-text" href="https://liikenne.live">Liikenne.live</a></li>
+                <li class="has-submenu">
+                    <a class="topBarLink" style="color: white;">Karttapohja</a>
+                    <ul class="submenu menu vertical" data-submenu>
+                        <li><a onclick="changeMap('streets')">Kadut</a></li>
+                        <li><a onclick="changeMap('bright')">Kirkas</a></li>
+                        <li><a onclick="changeMap('Light')">Vaalea</a></li>
+                        <li><a onclick="changeMap('Dark')">Tumma</a></li>
+                        <hr>
+                        <li><a onclick="changeMap('satellite')">Satelliitti</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="top-bar-right">
+            <ul class="menu">
+                <ul class="dropdown menu barBlue" data-dropdown-menu>
+                    <li class="has-submenu">
+                        <a class="topBarLink" style="color: white;">Päivitystaajuus</a>
+                        <ul class="submenu menu vertical" data-submenu>
+                            <li class="listItem">
+                                <a href="./info-HSL.html">Katso lisätietoa vaihtoehdoista infosivulta</a>
+                            </li>
+                            <hr>
+                            <li class="listItem">6: Äärettömän harva <input type="checkbox" id="6"></li>
+                            <li class="listItem">5: Todella harva <input type="checkbox" id="5"></li>
+                            <li class="listItem">4: Harva <input type="checkbox" id="4"></li>
+                            <li class="listItem">3: Normaali <input type="checkbox" id="3"></li>
+                            <li class="listItem">2: Tiheä <input type="checkbox" id="2"></li>
+                            <li class="listItem">1: Todella tiheä <input type="checkbox" id="1"></li>
+                            <hr>
+                            <li class="listItem">Kaikki <input type="checkbox" id="0"></li>
+                        </ul>
+                    </li>
+                </ul>
+                <li class="barBlue">
+                    <a class="topBarLink info" id="infoButton" href="./info-HSL.html">i</a>
+                </li>
+                <!--<li><input type="search" id="searchInputBox" placeholder="Etsi junaa tai liikennepaikkaa"></li>
+                <li><button type="button" id="searchButton" onclick="searchPressed()" class="button"><i
+                        class="material-icons">search</i></button></li>-->
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="off-canvas-wrapper" id="offCanvas">
+    <div class="off-canvas position-bottom" id="offCanvasBottom" data-off-canvas>
+        <!-- Your menu or Off-canvas content goes here -->
+
+        <!--Grid and info boxes-->
+        <div class="grid" id="gridBottom">
+            <div class="item">
+                <div class="content">
+                    <div class="infobox">
+                        <div class="infoboxHeader">
+                            <h3 class="infoboxHeaderText" id="name">
+                                -
+                            </h3>
+                        </div>
+                        <div class="infoboxBody">
+                            <p id="category"></p>
+                            <p>
+                                <span class="lihava">Linja: </span>
+                                <span id="linja">-</span>
+                            </p>
+                            <p>
+                                <span class="lihava">Operaattori: </span>
+                                <span id="operator">-</span>
+                            </p>
+                            <hr>
+                            <p>
+                                <span class="lihava">Nopeus: </span>
+                                <span id="Speed">-</span>
+                                <span> km/h</span>
+                            </p>
+                            <p>
+                                <span class="lihava">Kiihtyvyys: </span>
+                                <span id="Acc">-</span>
+                                <span> m/s <sup>2</sup></span>
+                            </p>
+                            <p>
+                                <span class="lihava">Ovet: </span>
+                                <span id="Doors">-</span>
+                            </p>
+                            <hr>
+                            <p>
+                                <span class="lihava" id="DelayText">Etuajassa: </span>
+                                <span class="green" id="Delay">-</span>
+                                <span> min</span>
+                            </p>
+                            <p style="font-size: 0.97rem;">
+                                <span class="lihava">Lähtöaika: </span>
+                                <span id="lähti">-</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="color: gray;font-size: 0.8rem;">Tiedot perustuvat HSL:n avoimeen dataan, lisätietoa
+                <a href="https://digitransit.fi/en/developers/apis/4-realtime-api/vehicle-positions/">rajapinnasta
+                </a></div>
+        </div>
+    </div>
+    <div class="off-canvas-absolute reveal-for-large position-left" id="offCanvasLeft" data-off-canvas>
+        <!-- Your menu or Off-canvas content goes here -->
+
+        <p id="SeeMoreInfoText">Klikkaa kulkuneuvoa nähdäksesi lisätietoa</p>
+
+        <!--Grid and info boxes-->
+        <div class="grid hidden" id="gridLeft">
+            <div class="item">
+                <div class="content">
+                    <div class="infobox">
+                        <div class="infoboxHeader">
+                            <h3 class="infoboxHeaderText" id="name">
+                                -
+                            </h3>
+                        </div>
+                        <div class="infoboxBody">
+                            <p id="category"></p>
+                            <p>
+                                <span class="lihava">Linja: </span>
+                                <span id="linja">-</span>
+                            </p>
+                            <p>
+                                <span class="lihava">Operaattori: </span>
+                                <span id="operator">-</span>
+                            </p>
+                            <hr>
+                            <p>
+                                <span class="lihava">Nopeus: </span>
+                                <span id="Speed">-</span>
+                                <span> km/h</span>
+                            </p>
+                            <p>
+                                <span class="lihava">Kiihtyvyys: </span>
+                                <span id="Acc">-</span>
+                                <span> m/s <sup>2</sup></span>
+                            </p>
+                            <p>
+                                <span class="lihava">Ovet: </span>
+                                <span id="Doors">-</span>
+                            </p>
+                            <hr>
+                            <p>
+                                <span class="lihava" id="DelayText">Etuajassa: </span>
+                                <span class="green" id="Delay">-</span>
+                                <span> min</span>
+                            </p>
+                            <p style="font-size: 0.97rem;">
+                                <span class="lihava">Lähtöaika: </span>
+                                <span id="lähti">-</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="color: gray;font-size: 0.8rem;">Tiedot perustuvat HSL:n avoimeen dataan, lisätietoa
+                <a href="https://digitransit.fi/en/developers/apis/4-realtime-api/vehicle-positions/">rajapinnasta
+                </a></div>
+        </div>
+    </div>
+    <div class="off-canvas-content" data-off-canvas-content>
+        <div id="map"></div>
+    </div>
+</div>
+
+
+<script>
+    $(document).foundation();
+</script>
+
+
+
+<script>
+    var viewportWidth = $(window).width() / parseFloat($("html").css("font-size"));
+    if (viewportWidth >= 64) {
+        document.getElementById('gridBottom').innerHTML = '';
+    } else {
+        document.getElementById('gridLeft').innerHTML = '';
+    }
+
+    $("#infoButton").click(function() {
+        let Links = document.getElementById("offCanvas");
+        /*Links.classList.toggle("blur");
+        Links = document.getElementById("topBar");
+        Links.classList.toggle("blur");
+        Links = document.getElementById("alertBox");
+        Links.classList.toggle("hidden");*/
+    });
+    var oneTrain = false;
+</script>
+
+<script src="js/funktiot.js"></script>
+<script src="js/HSLkartta.js"></script>
+
+<script src="js/masonry.min.js"></script>
+</body>
+
+</html>

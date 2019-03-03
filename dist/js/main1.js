@@ -774,26 +774,3 @@ function searchPressed() {
 function moreInfoPressed() {
   window.location = './TrainView.html?train=' + selectedTrain;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

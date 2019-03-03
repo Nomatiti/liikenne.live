@@ -1,0 +1,366 @@
+<!doctype html>
+<html class="no-js" lang="fi">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Liikenne.live - Meriliikenne</title>
+    <meta name="description" content="Suomen meriliikenne livenä kartalla">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, shrink-to-fit=no">
+
+    <!--<link rel="manifest" href="site.webmanifest">-->
+    <!--<link rel="apple-touch-icon" href="icon.png">-->
+    <!-- Place favicon.ico in the root directory -->
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=JykNmdRdGY">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=JykNmdRdGY">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=JykNmdRdGY">
+    <link rel="manifest" href="/site.webmanifest?v=JykNmdRdGY">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg?v=JykNmdRdGY" color="#205b8f">
+    <link rel="shortcut icon" href="/favicon.ico?v=JykNmdRdGY">
+    <meta name="apple-mobile-web-app-title" content="Liikenne.live">
+    <meta name="application-name" content="Liikenne.live">
+    <meta name="msapplication-TileColor" content="#2d89ef">
+    <meta name="theme-color" content="#ffffff">
+
+    <link rel="stylesheet" href="css/normalize.min.css">
+
+    <!--Google material icons font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,900" rel="stylesheet">
+
+    <!--Google ads-->
+    <!--TODO: remove comment-->
+    <!--<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({
+            google_ad_client: "ca-pub-1422283744181947",
+            enable_page_level_ads: true
+        });
+    </script>-->
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <!--TODO: remove comment-->
+    <!--<script async src="https://www.googletagmanager.com/gtag/js?id=UA-132395802-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-132395802-1', {'site_speed_sample_rate': 25});
+    </script>-->
+
+
+    <script src="js/vendor/modernizr-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.3.1.min.js"><\/script>')</script>
+
+    <!--Mapbox-->
+    <script src='https://api.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet'/>
+
+    <!--Foundation-->
+    <!-- Compressed CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.5.1/dist/css/foundation.min.css" integrity="sha256-1mcRjtAxlSjp6XJBgrBeeCORfBp/ppyX4tsvpQVCcpA= sha384-b5S5X654rX3Wo6z5/hnQ4GBmKuIJKMPwrJXn52ypjztlnDK2w9+9hSMBz/asy9Gw sha512-M1VveR2JGzpgWHb0elGqPTltHK3xbvu3Brgjfg4cg5ZNtyyApxw/45yHYsZ/rCVbfoO5MSZxB241wWq642jLtA==" crossorigin="anonymous">
+    <!-- Compressed JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.5.1/dist/js/foundation.min.js" integrity="sha256-WUKHnLrIrx8dew//IpSEmPN/NT3DGAEmIePQYIEJLLs= sha384-53StQWuVbn6figscdDC3xV00aYCPEz3srBdV/QGSXw3f19og3Tq2wTRe0vJqRTEO sha512-X9O+2f1ty1rzBJOC8AXBnuNUdyJg0m8xMKmbt9I3Vu/UOWmSg5zG+dtnje4wAZrKtkopz/PEDClHZ1LXx5IeOw==" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/main1.min.css">
+
+    <!--<script src="http://www.hivemq.com/demos/websocket-client/js/mqttws31.js" type="text/javascript"></script>-->
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js" type="text/javascript"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.2/mqttws31.min.js"
+            type="text/javascript"></script>
+
+</head>
+
+<body>
+<!--[if lte IE 9]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+<![endif]-->
+
+<div id="loading">
+    <div class="loader blueLoader"></div>
+</div>
+
+<div id="alertBox" class="hidden">
+    <div id="cantLoadDiv">
+        <h4 style="font-weight: bold; color: #ff3b00;">Ongelma tietojen latauksessa</h4>
+        <i class="material-icons" id="error">
+            error_outline
+        </i>
+        <p style="text-align: justify;">Ongelmia yhteyden muodostamisessa. Ongelma voi olla Traffic
+            Management Finlandin palvelussa tai netissäsi on estetty palvelun tarvitsema websocket-yhteys (esimerkiksi
+            koulun
+            netissä palvelu ei pakosti toimi). Voit kokeilla <a href="javascript:location.reload();">auttaisiko sivun
+                päivittäminen</a>.</p>
+    </div>
+</div>
+
+<div id="connectionError" class="hidden">
+    <h4 style="font-weight: bold;" id="connectionErrorHeader">Yhteys katkesi</h4>
+    <p id="connectionErrorText">Yritetään yhdistää uudestaan</p>
+</div>
+
+<!--Title bar-->
+<div class="top-barDiv" id="topBar">
+    <div class="title-bar barBlue" data-responsive-toggle="responsive-menu" data-hide-for="medium">
+        <button class="menu-icon" type="button" data-toggle="responsive-menu"></button>
+        <div class="title-bar-title"></div>
+    </div>
+    <div class="top-bar barBlue" id="responsive-menu">
+        <div class="top-bar-left">
+            <ul class="dropdown menu barBlue" data-dropdown-menu>
+                <li><a class="menu-text" href="https://liikenne.live">Liikenne.live</a></li>
+                <li class="has-submenu">
+                    <a class="topBarLink" style="color: white;">Karttapohja</a>
+                    <ul class="submenu menu vertical" data-submenu>
+                        <li><a onclick="changeMap('streets')">Kadut</a></li>
+                        <li><a onclick="changeMap('bright')">Kirkas</a></li>
+                        <li><a onclick="changeMap('Light')">Vaalea</a></li>
+                        <li><a onclick="changeMap('Dark')">Tumma</a></li>
+                        <hr>
+                        <li><a onclick="changeMap('satellite')">Satelliitti</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="top-bar-right">
+            <ul class="menu">
+                <ul class="dropdown menu barBlue" data-dropdown-menu>
+                    <li class="has-submenu">
+                        <a class="topBarLink" style="color: white;">Suodata</a>
+                        <ul class="submenu menu vertical" data-submenu>
+                            <li>
+                                <div id="stationsSelect">
+                                    <label for="stationsCheck" id="stationsCheckText">Suodata (Hidastaa sivun
+                                        toimintaa ja suodatuksen toimiminen vie hetken aikaa):</label>
+                                    <input type="checkbox" id="filter">
+                                </div>
+                            </li>
+                            <hr>
+                            <li><a onclick="changeMap('streets')">Kadut</a></li>
+                            <li><a onclick="changeMap('bright')">Kirkas</a></li>
+                            <li><a onclick="changeMap('Light')">Vaalea</a></li>
+                            <li><a onclick="changeMap('Dark')">Tumma</a></li>
+                            <hr>
+                            <li><a onclick="changeMap('satellite')">Satelliitti</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <li class="barBlue">
+                    <a class="topBarLink info" id="infoButton" href="./info.html">i</a>
+                </li>
+                <!--<li><input type="search" id="searchInputBox" placeholder="Etsi junaa tai liikennepaikkaa"></li>
+                <li><button type="button" id="searchButton" onclick="searchPressed()" class="button"><i
+                        class="material-icons">search</i></button></li>-->
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="off-canvas-wrapper" id="offCanvas">
+    <div class="off-canvas position-bottom" id="offCanvasBottom" data-off-canvas>
+        <!-- Your menu or Off-canvas content goes here -->
+
+        <!--Grid and info boxes-->
+        <div class="grid" id="gridBottom">
+            <div class="item">
+                <div class="content">
+                    <div class="infobox">
+                        <div class="infoboxHeader">
+                            <h3 class="infoboxHeaderText">
+                                <span class="material-icons">directions_boat</span>
+                                <span id="name">-</span>
+                            </h3>
+                        </div>
+                        <div class="infoboxBody">
+                            <h4 id="määränpää">-</h4>
+                            <hr>
+                            <p>
+                                <span class="lihava">Operaattori: </span>
+                                <span id="operator">-</span>
+                            </p>
+                            <p id="category"></p>
+                            <hr>
+                            <span class="lihava">Eta: </span>
+                            <span id="eta">-</span>
+                            <p>
+                                <span class="lihava">Seuraava asema: </span>
+                                <span id="NextStation"></span>
+                            </p>
+                            <hr>
+                            <p>
+                                <span class="lihava" id="DelayText">Etuajassa: </span>
+                                <span class="green" id="Delay">-</span>
+                                <span> min</span>
+                            </p>
+                            <p style="font-size: 0.97rem;">
+                                <span class="lihava">Perillä: </span>
+                                <span>
+                            <span id="ArrivalTime">--:--</span>
+                            (Ennustettu aika:
+                            <span id="RealArrival">--:--</span>
+                            )
+                        </span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="color: gray;font-size: 0.8rem;">Tiedot perustuvat Traffic Management Finlandin avoimeen dataan
+                <a href="http://creativecommons.org/licenses/by/4.0/">CC 4.0 BY</a></div>
+        </div>
+    </div>
+    <div class="off-canvas-absolute reveal-for-large position-left" id="offCanvasLeft" data-off-canvas>
+        <!-- Your menu or Off-canvas content goes here -->
+
+        <p id="SeeMoreInfoText">Klikkaa junaa nähdäksesi lisätietoa</p>
+
+        <!--Grid and info boxes-->
+        <div class="grid hidden" id="gridLeft">
+            <div class="item">
+                <div class="content">
+                    <div class="infobox">
+                        <div class="infoboxHeader">
+                            <h3 class="infoboxHeaderText">
+                                <span class="material-icons">train</span>
+                                <span id="trainNumber">-</span>
+                            </h3>
+                        </div>
+                        <div class="infoboxBody">
+                            <h4 id="mistämihin">-</h4>
+                            <hr>
+                            <p>
+                                <span class="lihava">Operaattori: </span>
+                                <span id="operator">-</span>
+                            </p>
+                            <p id="category"></p>
+                            <hr>
+                            <span class="lihava">Nopeus: </span>
+                            <span id="speed">-</span><span> km/h</span>
+                            <p>
+                                <span class="lihava">Seuraava asema: </span>
+                                <span id="NextStation"></span>
+                            </p>
+                            <hr>
+                            <p>
+                                <span class="lihava" id="DelayText">Etuajassa: </span>
+                                <span class="green" id="Delay">-</span>
+                                <span> min</span>
+                            </p>
+                            <p style="font-size: 0.97rem;">
+                                <span class="lihava">Perillä: </span>
+                                <span>
+                            <span id="ArrivalTime">--:--</span>
+                            (Ennustettu aika:
+                            <span id="RealArrival">--:--</span>
+                            )
+                        </span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="content">
+                    <div class="infobox">
+                        <div class="infoboxHeader">
+                            <h3 class="infoboxHeaderText">
+                                Kokoonpano
+                            </h3>
+                        </div>
+                        <div class="infoboxBody">
+                            <div id="compositionDiv">
+                                -
+                            </div>
+                            <div class="lihava" style="margin-top: 1.55rem;">
+                                Merkkien selitykset:
+                                <span data-tooltip tabindex="1" title="Sähköveturi" class="material-icons">flash_on</span>
+                                <span data-tooltip tabindex="1" title="Dieselveturi" class="material-icons">local_gas_station</span>
+                                <span data-tooltip tabindex="1" title="Eläinvaunu" class="material-icons">pets</span>
+                                <span data-tooltip tabindex="1" title="TV" class="material-icons">personal_video</span>
+                                <span data-tooltip tabindex="1" title="Ravintola" class="material-icons">restaurant</span>
+                                <span data-tooltip tabindex="1" title="Leikkihuone" class="material-icons">child_friendly</span>
+                                <span data-tooltip tabindex="1" title="Matkatavarat" class="material-icons">work</span>
+                                <span data-tooltip tabindex="1" title="Tupakointi" class="material-icons">smoking_rooms</span>
+                                <span data-tooltip tabindex="1" title="Esteetön" class="material-icons">accessible</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="content">
+                    <div class="infobox">
+                        <div class="infoboxHeader">
+                            <h3 class="infoboxHeaderText">
+                                Asemat
+                            </h3>
+                        </div>
+                        <div class="infoboxBody">
+                            <table id="stationsTable">
+                                <tbody>
+                                <tr>
+                                    <th>Saapuu</th>
+                                    <th>Asema</th>
+                                    <th>Lähtee</th>
+                                </tr>
+                                <tr>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="content">
+                    <div class="moreInfoLink">
+                        <a onclick="moreInfoPressed()">Näytä lisätietoja</a>
+                    </div>
+                </div>
+            </div>
+            <div style="color: gray;font-size: 0.8rem;">Tiedot perustuvat Traffic Management Finlandin avoimeen dataan
+                <a href="http://creativecommons.org/licenses/by/4.0/">CC 4.0 BY</a></div>
+        </div>
+    </div>
+    <div class="off-canvas-content" data-off-canvas-content>
+        <div id="map"></div>
+    </div>
+</div>
+
+
+<script>
+    $(document).foundation();
+</script>
+
+
+
+<script>
+    var viewportWidth = $(window).width() / parseFloat($("html").css("font-size"));
+    if (viewportWidth >= 64) {
+        document.getElementById('gridBottom').innerHTML = '';
+    } else {
+        document.getElementById('gridLeft').innerHTML = '';
+    }
+
+    $("#infoButton").click(function() {
+        let Links = document.getElementById("offCanvas");
+        /*Links.classList.toggle("blur");
+        Links = document.getElementById("topBar");
+        Links.classList.toggle("blur");
+        Links = document.getElementById("alertBox");
+        Links.classList.toggle("hidden");*/
+    });
+    var oneTrain = false;
+</script>
+
+<script src="js/funktiot.js"></script>
+<script src="js/merikartta.js"></script>
+
+<script src="js/masonry.min.js"></script>
+</body>
+
+</html>

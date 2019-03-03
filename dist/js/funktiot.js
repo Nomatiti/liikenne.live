@@ -6,6 +6,41 @@ function TrainLocation(number, lat, long, speed, time) {
   this.Time = new Date(time);
 }
 
+function Vessel(mmsi, lat, long, heading, rot, cog, sog, time, name, draught, callsign, eta, destination) {
+  this.Mmsi = mmsi;
+  this.Lat = lat;
+  this.Long = long;
+  this.Heading = heading;
+  this.Rot = rot;
+  this.Cog = cog;
+  this.Sog = sog;
+  this.Time = new Date(time);
+  this.Name = name;
+  this.Draught = draught;
+  this.Callsign = callsign;
+  this.Eta = eta;
+  this.Destination = destination;
+}
+
+function HSL(type, desi, dir, oper, veh, tsi, spd, hdg, lat, long, acc, dl, odo, drst, start, dest) {
+  this.Type = type;
+  this.Desi = desi;
+  this.Dir = dir;
+  this.Oper = oper;
+  this.Veh = oper;
+  this.Time = new Date(tsi);
+  this.Spd = spd;
+  this.Hdg = hdg;
+  this.Lat = lat;
+  this.Long = long;
+  this.Acc = acc;
+  this.Dl = dl;
+  this.Odo = odo;
+  this.Drst = drst;
+  this.Start = start;
+  this.Dest = dest;
+  this.HSLidentifier = oper + "/" + veh;
+}
 
 function TrainInfo(operator, trainType, trainCategory, stations) {
   this.Operator = operator;
@@ -892,4 +927,208 @@ function findNextStation(stationsArray) {
       return stationsArray[i].UICCode;
     }
   }
+}
+
+
+
+function GeoJSONvessel(object) {
+  let feature = '{"type":"Feature","properties":{"Mmsi":' + object.Mmsi + ',"Cog":' + object.Cog + ',"Destination":"' + object.Destination + '","Draught":' + object.Draught + ',"Eta":' + object.Eta + ',"Heading":' + object.Heading + ',"Name":"' + object.Name + '","Rot":' + object.Rot + ',"Callsign":"' + object.Callsign + '","Sog":' + object.Sog + '},"geometry":' + GeoJSONgeometry(object.Lat, object.Long) + '}';
+  return feature;
+}
+
+function GeoJSONvesselCollection(array) {
+  let JSON = '{"type":"FeatureCollection","features":[';
+  if (array.length != 0) {
+    JSON = JSON + GeoJSONvessel(array[0]);
+    for (var i = 1; i < array.length; i++) {
+      JSON = JSON + ',' + GeoJSONvessel(array[i]);
+    }
+  }
+  JSON = JSON + ']}';
+  //console.log(JSON);
+  return JSON;
+}
+
+
+
+function updateHSLarray(message, topic, HSLarray) {
+  "/hfp/v1/journey/ongoing/bus/0022/00807/4624/2/Tikkurila/13:37/4610206/4/60;25/20/94/23"
+  let type = "";
+  if (topic.slice(24, 28) == "bus/") {
+    type = "Bussi";
+  } else if (topic.slice(24, 28) == "tram") {
+    type = "Raitiovaunu";
+  } else if (topic.slice(24, 29) == "train") {
+    type = "Lähijuna";
+  }
+  let object = new HSL(type, message.desi, message.dir, message.oper, message.veh, message.tst, message.spd, message.hdg, message.lat, message.long, message.acc, message.dl, message.odo, message.drst, message.start, topic.split("/")[10]);
+
+  //Search the train from array, if not in the array return undefined
+  let position = searchHSLFromArray(object.HSLidentifier, HSLarray);
+
+  //If train is already in the array update it, if not push the new train
+  if (position == undefined) {
+    //Train is new and not in the array -> Push the new train to the array
+    HSLarray.push(object);
+  } else {
+    //Train is already in the array -> update the old object
+    HSLarray[position] = object;
+  }
+
+  //If train is currently selected update speed
+  if (object.HSLidentifier == selectedHSL) {
+    console.log(object);
+    updateSidePanelHSL(object);
+  }
+}
+
+//Function to search "operator/number" from array and return index if it is found
+function searchHSLFromArray(identifier, array) {
+  //Go trough the array until it is found
+  for (i = 0; i < array.length; i++) {
+    //Check if number matches the one specified
+    if (array[i].HSLidentifier == identifier) {
+      //Return the index of HSL in the array
+      return i;
+    }
+  }
+}
+
+function GeoJSON_HSL(object) {
+  let feature = '{"type":"Feature","properties":{"Type":"' + object.Type + '","Desi":"' + object.Desi + '","Dir":' + object.Dir + ',"Oper":' + object.Oper + ',"Veh":' + object.Veh + ',"Spd":' + object.Spd + ',"Hdg":' + object.Hdg + ',"Acc":' + object.Acc + ',"Dl":' + object.Dl + ',"Odo":' + object.Odo + ',"Drst":' + object.Drst + ',"Identifier":"' + object.HSLidentifier + '"},"geometry":' + GeoJSONgeometry(object.Lat, object.Long) + '}';
+  return feature;
+}
+
+function GeoJSON_HSLCollection(array) {
+  let JSON = '{"type":"FeatureCollection","features":[';
+  if (array.length != 0) {
+    JSON = JSON + GeoJSON_HSL(array[0]);
+    for (var i = 1; i < array.length; i++) {
+      JSON = JSON + ',' + GeoJSON_HSL(array[i]);
+    }
+  }
+  JSON = JSON + ']}';
+  //console.log(JSON);
+  return JSON;
+}
+
+function updateSidePanelHSL(object) {
+  if (object.Dest == "Ladataan...") {
+    document.getElementById("name").innerHTML = object.Dest;
+  } else {
+    document.getElementById("name").innerHTML = "Linja: " + object.Desi + ":" + object.Dest;
+  }
+
+  document.getElementById("category").innerHTML = object.Type;
+  document.getElementById("linja").innerHTML = object.Desi;
+
+  /*
+oper 	Operator name
+6 	Oy Pohjolan Liikenne Ab
+12 	Helsingin Bussiliikenne Oy
+17 	Tammelundin Liikenne Oy
+18 	Pohjolan Kaupunkiliikenne Oy
+19 	Etelä-Suomen Linjaliikenne Oy
+20 	Bus Travel Åbergin Linja Oy
+21 	Bus Travel Oy Reissu Ruoti
+22 	Nobina Finland Oy
+36 	Nurmijärven Linja Oy
+40 	HKL-Raitioliikenne
+45 	Transdev Vantaa Oy
+47 	Taksikuljetus Oy
+51 	Korsisaari Oy
+54 	V-S Bussipalvelut Oy
+55 	Transdev Helsinki Oy
+58 	Koillisen Liikennepalvelut Oy
+59 	Tilausliikenne Nikkanen Oy
+90 	VR Oy
+*/
+
+
+  let OperText;
+  switch (object.Oper) {
+    case 6:
+     OperText = "Oy Pohjolan Liikenne Ab";
+     break;
+    case 12:
+      OperText = "Helsingin Bussiliikenne Oy";
+      break;
+    case 17:
+      OperText = "Tammelundin Liikenne Oy";
+      break;
+    case 18:
+      OperText = "Pohjolan Kaupunkiliikenne Oy";
+      break;
+    case 19:
+      OperText = "Etelä-Suomen Linjaliikenne Oy";
+      break;
+    case 20:
+      OperText = "Bus Travel Åbergin Linja Oy";
+      break;
+    case 21:
+      OperText = "Bus Travel Oy Reissu Ruoti";
+      break;
+    case 22:
+      OperText = "Nobina Finland Oy";
+      break;
+    case 36:
+      OperText = "Nurmijärven Linja Oy";
+      break;
+    case 40:
+      OperText = "HKL-Raitioliikenne";
+      break;
+    case 45:
+      OperText = "Transdev Vantaa Oy";
+      break;
+    case 47:
+      OperText = "Taksikuljetus Oy";
+      break;
+    case 51:
+      OperText = "Korsisaari Oy";
+      break;
+    case 54:
+      OperText = "V-S Bussipalvelut Oy";
+      break;
+    case 55:
+      OperText = "Transdev Helsinki Oy";
+      break;
+    case 58:
+      OperText = "Koillisen Liikennepalvelut Oy";
+      break;
+    case 59:
+      OperText = "Tilausliikenne Nikkanen Oy";
+      break;
+    case 90:
+      OperText = "VR Oy";
+      break;
+    default:
+      OperText = "-";
+      break;
+  }
+  document.getElementById("operator").innerHTML = OperText;
+
+  document.getElementById("Speed").innerHTML = (object.Spd * 3.6).toFixed(1);
+  document.getElementById("Acc").innerHTML = object.Acc;
+
+  if (object.Drst == 0) {
+    document.getElementById("Doors").innerHTML = "kiinni";
+  } else if (object.Drst == 1) {
+    document.getElementById("Doors").innerHTML = "auki";
+  } else {
+    document.getElementById("Doors").innerHTML = "-";
+  }
+
+  if (object.Dl >= 0) {
+    document.getElementById("Delay").innerHTML = object.Dl;
+    document.getElementById("DelayText").innerHTML = "Etuajassa: ";
+    document.getElementById("Delay").classList.remove("red");
+    document.getElementById("Delay").classList.add("green");
+  } else {
+    document.getElementById("Delay").innerHTML = object.Dl;
+    document.getElementById("DelayText").innerHTML = "jäljessä: ";
+    document.getElementById("Delay").classList.add("red");
+    document.getElementById("Delay").classList.remove("green");
+  }
+
+  document.getElementById("lähti").innerHTML = object.Start;
 }
