@@ -949,10 +949,49 @@ function GeoJSONvesselCollection(array) {
     return JSON;
 }
 
+function parseVesselLocationMessage(message, vesselsArray) {
+    //Make vessel object
+    let response;
+    try {
+        response = JSON.parse(message);
+    }
+    catch (e) {
+        console.warn('Cannot parse location message' + e);
+        return;
+    }
+    let vessel = new Vessel(response.mmsi, response.geometry.coordinates[1], response.geometry.coordinates[0], response.properties.heading, response.properties.rot, response.properties.cog, response.properties. sog, response.properties.timestampExternal, null, null, null, null, null);
+
+    //Search the vessel from array, if not in the array return undefined
+    let vesselPosition = searchVesselFromArray(vessel.mmsi, vesselsArray);
+
+    //If vessel is already in the array update it, if not push the new vessel
+    if (vesselPosition == undefined) {
+        //Train is new and not in the array -> Push the new vessel to the array
+        vesselsArray.push(vessel);
+    } else {
+        //Train is already in the array -> update the old object
+        vesselsArray[vesselPosition] = vessel;
+    }
+
+    //Remove any old vessels from the array
+    removeOldTrains(vesselsArray);
+}
+
+//Function to search vessel mmsi from array and return index if it is found
+function searchVesselFromArray(mmsi, array) {
+    //Go trough the array until same mmsi is found
+    for (i = 0; i < array.length; i++) {
+        //Check if number matches the one specified
+        if (array[i].Mmsi === mmsi) {
+            //Return the index of vessel in the array
+            return i;
+        }
+    }
+}
 
 
 function updateHSLarray(message, topic, HSLarray) {
-    "/hfp/v1/journey/ongoing/bus/0022/00807/4624/2/Tikkurila/13:37/4610206/4/60;25/20/94/23"
+    //"/hfp/v1/journey/ongoing/bus/0022/00807/4624/2/Tikkurila/13:37/4610206/4/60;25/20/94/23"
     let type = "";
     if (topic.slice(24, 28) == "bus/") {
         type = "Bussi";
