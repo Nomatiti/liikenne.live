@@ -1,7 +1,7 @@
 var vessels = [];
 
 var bounds = [
-    [4.18, 58.6], // Southwest coordinates
+    [4.18, 55.6], // Southwest coordinates
     [47.5, 70.16]  // Northeast coordinates
 ];
 
@@ -9,8 +9,8 @@ mapboxgl.accessToken = 'pk.eyJ1Ijoibm9tYXRpdGkiLCJhIjoiY2pyYXJxZ2gzMGh1ZDRhcDg0c
 var map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/bright-v8',
-    center: [24.941, 60.172]
-    //maxBounds: bounds
+    center: [24.941, 60.172],
+    maxBounds: bounds
 });
 
 var nav = new mapboxgl.NavigationControl();
@@ -63,11 +63,11 @@ map.on('style.load', function () {
         }
     });
     map.addLayer({
-        id: "trainNumbers",
+        id: "vesselName",
         type: "symbol",
         source: "Trains",
         layout: {
-            "text-field": "{TrainNumber}",
+            "text-field": "{Mmsi}",
             "text-font": ["Open Sans Regular", "Arial Unicode MS Bold"],
             "text-size": 8
         }
@@ -116,7 +116,7 @@ var y = 0;
 //Gets called whenever you receive a message for your subscriptions
 client.onMessageArrived = function(message) {
     //console.log(message.destinationName);
-    // train-locations/
+    // locations
     if (message.destinationName.split("/")[2] === "locations") {
         parseVesselLocationMessage(message.payloadString, vessels);
         if (y < 10) {
@@ -125,10 +125,9 @@ client.onMessageArrived = function(message) {
         }
     }
 
-    // trains/
-    if (message.destinationName.slice(0, 7) == "trains/") {
-        parseTrainMessage(message.payloadString, false);
-
+    // metadata
+    if (message.destinationName.split("/")[2] === "metadata") {
+        //parseTrainMessage(message.payloadString, false);
     }
     if (x==true) {
         console.log(message.destinationName);

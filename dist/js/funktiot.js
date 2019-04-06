@@ -972,9 +972,6 @@ function parseVesselLocationMessage(message, vesselsArray) {
         //Train is already in the array -> update the old object
         vesselsArray[vesselPosition] = vessel;
     }
-
-    //Remove any old vessels from the array
-    removeOldTrains(vesselsArray);
 }
 
 //Function to search vessel mmsi from array and return index if it is found
