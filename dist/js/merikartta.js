@@ -1,5 +1,7 @@
 var vessels = [];
 
+var allMetadata = [];
+
 var bounds = [
     [4.18, 55.6], // Southwest coordinates
     [47.5, 70.16]  // Northeast coordinates
@@ -67,11 +69,15 @@ map.on('style.load', function () {
         type: "symbol",
         source: "Trains",
         layout: {
-            "text-field": "{Mmsi}",
+            "text-field": "{Name}",
             "text-font": ["Open Sans Regular", "Arial Unicode MS Bold"],
             "text-size": 8
         }
     });
+});
+
+HttpReq("https://meri.digitraffic.fi/api/v1/metadata/vessels", function () {
+    allMetadata = JSON.parse(this.responseText);
 });
 
 let tries = 0;
@@ -110,8 +116,6 @@ client.onConnectionLost = function(responseObject) {
     }
 };
 
-var x = true;
-var y = 0;
 
 //Gets called whenever you receive a message for your subscriptions
 client.onMessageArrived = function(message) {
@@ -119,22 +123,12 @@ client.onMessageArrived = function(message) {
     // locations
     if (message.destinationName.split("/")[2] === "locations") {
         parseVesselLocationMessage(message.payloadString, vessels);
-        if (y < 10) {
-            console.log(vessels);
-            y++;
-        }
     }
 
     // metadata
     if (message.destinationName.split("/")[2] === "metadata") {
-        //parseTrainMessage(message.payloadString, false);
+        parseVesselMetadataMessage(message.payloadString, vessels);
     }
-    if (x==true) {
-        console.log(message.destinationName);
-        console.log(message.payloadString);
-        x=false;
-    }
-
 };
 
 //Connect Options

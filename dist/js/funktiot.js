@@ -931,12 +931,35 @@ function findNextStation(stationsArray) {
 
 
 
-function GeoJSONvessel(object) {
+/*function GeoJSONvessel(object) {
     let feature = '{"type":"Feature","properties":{"Mmsi":' + object.Mmsi + ',"Cog":' + object.Cog + ',"Destination":"' + object.Destination + '","Draught":' + object.Draught + ',"Eta":' + object.Eta + ',"Heading":' + object.Heading + ',"Name":"' + object.Name + '","Rot":' + object.Rot + ',"Callsign":"' + object.Callsign + '","Sog":' + object.Sog + '},"geometry":' + GeoJSONgeometry(object.Lat, object.Long) + '}';
+    return feature;
+}*/
+
+function GeoJSONvessel(object) {
+    let feature = {
+        type: "Feature",
+        properties: {
+            Mmsi: object.Mmsi,
+            Cog: object.Cog,
+            Destination: object.Destination,
+            Draught: object.Draught,
+            Eta: object.Eta,
+            Heading: object.Heading,
+            Name: object.Name,
+            Rot: object.Rot,
+            Callsign: object.Callsign,
+            Sog: object.Sog,
+        },
+        geometry: {
+            type: "Point",
+            coordinates: [object.Long, object.Lat]
+        }
+    };
     return feature;
 }
 
-function GeoJSONvesselCollection(array) {
+/*function GeoJSONvesselCollection(array) {
     let JSON = '{"type":"FeatureCollection","features":[';
     if (array.length != 0) {
         JSON = JSON + GeoJSONvessel(array[0]);
@@ -947,6 +970,30 @@ function GeoJSONvesselCollection(array) {
     JSON = JSON + ']}';
     //console.log(JSON);
     return JSON;
+}*/
+
+function GeoJSONvesselCollection(array) {
+    let features = [];
+
+    array.forEach(function (element) {
+        features.push(GeoJSONvessel(element));
+    });
+
+    let collection = {
+        type: "FeatureCollection",
+        features: features
+    };
+
+    return JSON.stringify(collection);
+}
+
+function searchVesselMetadata(array, mmsi) {
+    for (let i = 0, len = array.length; i < len; i++) {
+        if (array[i].mmsi === mmsi) {
+            return i;
+        }
+    }
+    return -1;
 }
 
 function parseVesselLocationMessage(message, vesselsArray) {
@@ -959,18 +1006,34 @@ function parseVesselLocationMessage(message, vesselsArray) {
         console.warn('Cannot parse location message' + e);
         return;
     }
-    let vessel = new Vessel(response.mmsi, response.geometry.coordinates[1], response.geometry.coordinates[0], response.properties.heading, response.properties.rot, response.properties.cog, response.properties. sog, response.properties.timestampExternal, null, null, null, null, null);
+    let vessel = new Vessel(response.mmsi, response.geometry.coordinates[1], response.geometry.coordinates[0], response.properties.heading, response.properties.rot, response.properties.cog, response.properties. sog, response.properties.timestampExternal, "-", 0, "-", 0, "-");
 
     //Search the vessel from array, if not in the array return undefined
-    let vesselPosition = searchVesselFromArray(vessel.mmsi, vesselsArray);
+    let vesselPosition = searchVesselFromArray(vessel.Mmsi, vesselsArray);
 
     //If vessel is already in the array update it, if not push the new vessel
     if (vesselPosition == undefined) {
-        //Train is new and not in the array -> Push the new vessel to the array
+        let index = searchVesselMetadata(allMetadata, vessel.Mmsi);
+
+        if (index !== -1) {
+            vessel.Name = allMetadata[index].name;
+            vessel.Draught = allMetadata[index].draught;
+            vessel.Callsign = allMetadata[index].callSign;
+            vessel.Eta = allMetadata[index].eta;
+            vessel.Destination = allMetadata[index].destination;
+        }
+
+        //Vessel is new and not in the array -> Push the new vessel to the array
         vesselsArray.push(vessel);
     } else {
-        //Train is already in the array -> update the old object
-        vesselsArray[vesselPosition] = vessel;
+        //Vessel is already in the array -> update the old object
+        vesselsArray[vesselPosition].Lat =  vessel.Lat;
+        vesselsArray[vesselPosition].Long =  vessel.Long;
+        vesselsArray[vesselPosition].Heading =  vessel.Heading;
+        vesselsArray[vesselPosition].Rot = vessel.Rot;
+        vesselsArray[vesselPosition].Cog = vessel.Cog;
+        vesselsArray[vesselPosition].Sog = vessel.Sog;
+        vesselsArray[vesselPosition].Time = vessel.Time;
     }
 }
 
@@ -983,6 +1046,30 @@ function searchVesselFromArray(mmsi, array) {
             //Return the index of vessel in the array
             return i;
         }
+    }
+}
+
+function parseVesselMetadataMessage(message, vesselsArray) {
+    let response;
+    try {
+        response = JSON.parse(message);
+    }
+    catch (e) {
+        console.warn('Cannot parse metadata message' + e);
+        return;
+    }
+
+    //Search the vessel from array, if not in the array return undefined
+    let vesselPosition = searchVesselFromArray(response.mmsi, vesselsArray);
+
+    if (vesselPosition !== undefined) {
+        let vessel = vesselsArray[vesselPosition];
+
+        vessel.Name = response.name;
+        vessel.Draught = response.draught;
+        vessel.Callsign = response.callSign;
+        vessel.Eta = response.eta;
+        vessel.Destination = response.destination;
     }
 }
 
