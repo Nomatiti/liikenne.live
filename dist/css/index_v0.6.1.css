@@ -300,6 +300,19 @@ hr {
     grid-area: käyttöehdot;
     margin: 0;
 }
+#homepageLink {
+    color: #292929;
+    text-decoration: underline;
+}
+#homepageLink:visited {
+    color: #3d3d3d;
+}
+#homepageLink:hover {
+    color: #464646;
+}
+#homepageLink:active {
+    color: #313f67;
+}
 
 #cookiesDiv {
     position: fixed;

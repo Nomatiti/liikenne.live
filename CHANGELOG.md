@@ -1,3 +1,6 @@
+### 0.6.1 (6.4.2019)
+* Lisätty linkki juho-tyrvainen.fi sivulle footeriin (issue #5)
+
 ### 0.6.0 (3.3.2019)
 * Maaliikenteen seuranta lisätty!
 
