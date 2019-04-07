@@ -1134,13 +1134,14 @@ function parseVesselLocationMessage(message, vesselsArray) {
         console.warn('Cannot parse location message' + e);
         return;
     }
-    let vessel = new Vessel(response.mmsi, response.geometry.coordinates[1], response.geometry.coordinates[0], response.properties.heading, response.properties.rot, response.properties.cog, response.properties. sog, response.properties.timestampExternal, "-", 0, "-", 0, "-", "");
+    let vessel = new Vessel(response.mmsi, response.geometry.coordinates[1], response.geometry.coordinates[0], response.properties.heading, response.properties.rot, response.properties.cog, response.properties. sog, response.properties.timestampExternal, "-", 0, "-", 0, "-", 0);
 
     //Search the vessel from array, if not in the array return undefined
     let vesselPosition = searchVesselFromArray(vessel.Mmsi, vesselsArray);
 
     //If vessel is already in the array update it, if not push the new vessel
     if (vesselPosition == undefined) {
+        let detailsIndex = searchVesselMetadata(vesselDetails, vessel.Mmsi);
         let index = searchVesselMetadata(allMetadata, vessel.Mmsi);
 
         if (index !== -1) {
@@ -1150,6 +1151,11 @@ function parseVesselLocationMessage(message, vesselsArray) {
             vessel.Eta = allMetadata[index].eta;
             vessel.Destination = allMetadata[index].destination;
             vessel.Type = allMetadata[index].shipType;
+        }
+        if (detailsIndex !== -1) {
+            vessel.Name = vesselDetails[detailsIndex].name;
+            vessel.Draught = vesselDetails[detailsIndex].vesselDimensions.draught;
+            vessel.Type = vesselDetails[detailsIndex].vesselConstruction.vesselTypeCode;
         }
 
         //Vessel is new and not in the array -> Push the new vessel to the array
@@ -1163,6 +1169,16 @@ function parseVesselLocationMessage(message, vesselsArray) {
         vesselsArray[vesselPosition].Cog = vessel.Cog;
         vesselsArray[vesselPosition].Sog = vessel.Sog;
         vesselsArray[vesselPosition].Time = vessel.Time;
+
+        if (vesselsArray[vesselPosition].Type === 0) {
+            let detailsIndex = searchVesselMetadata(vesselDetails, vessel.Mmsi);
+            if (detailsIndex !== -1) {
+
+                vessel.Name = vesselDetails[detailsIndex].name;
+                vessel.Draught = vesselDetails[detailsIndex].vesselDimensions.draught;
+                vessel.Type = vesselDetails[detailsIndex].vesselConstruction.vesselTypeCode;
+            }
+        }
     }
 }
 
@@ -1200,6 +1216,69 @@ function parseVesselMetadataMessage(message, vesselsArray) {
         vessel.Eta = response.eta;
         vessel.Destination = response.destination;
     }
+}
+
+function updateVesselDetails(object) {
+    if (object.clear === undefined) {
+        $("#ballast").text(prettyPrintItem(object.vesselConstruction.ballastTank));
+        $("#doubleBottom").text(prettyPrintItem(object.vesselConstruction.doubleBottom));
+        $("#gasSystem").text(prettyPrintItem(object.vesselConstruction.inertGasSystem));
+        $("#iceClass").text(prettyPrintItem(object.vesselConstruction.iceClassCode));
+        $("#issueDate").text(prettyDate(object.vesselConstruction.iceClassIssueDate));
+        $("#iceEndDate").text(prettyDate(object.vesselConstruction.iceClassEndDate));
+        $("#iceIssuer").text(prettyPrintItem(object.vesselConstruction.iceClassIssuePlace));
+        $("#ballast").text(prettyPrintItem(object.vesselConstruction.ballastTank));
+        $("#gross").text(prettyPrintItem(object.vesselDimensions.grossTonnage));
+        $("#deathWeight").text(prettyPrintItem(object.vesselDimensions.deathWeight));
+        $("#motorPower").text(prettyPrintItem(object.vesselDimensions.enginePower));
+        $("#maxSpeed").text(prettyPrintItem(object.vesselDimensions.maxSpeed));
+        $("#height").text(prettyPrintItem(object.vesselDimensions.height));
+        $("#length").text(prettyPrintItem(object.vesselDimensions.length));
+        $("#overallLength").text(prettyPrintItem(object.vesselDimensions.overallLength));
+        $("#nationality").text(prettyPrintItem(object.vesselRegistration.nationality));
+        $("#port").text(prettyPrintItem(object.vesselRegistration.portOfRegistry));
+        $("#owner").text(prettyPrintItem(object.vesselSystem.shipOwner));
+        $("#phone").text(prettyPrintItem(object.vesselSystem.shipTelephone1));
+        $("#email").text(prettyPrintItem(object.vesselSystem.shipEmail));
+    } else {
+        $("#ballast").text("");
+        $("#doubleBottom").text("");
+        $("#gasSystem").text("");
+        $("#iceClass").text("");
+        $("#issueDate").text("");
+        $("#iceEndDate").text("");
+        $("#iceIssuer").text("");
+        $("#ballast").text("");
+        $("#gross").text("");
+        $("#deathWeight").text("");
+        $("#motorPower").text("");
+        $("#maxSpeed").text("");
+        $("#height").text("");
+        $("#length").text("");
+        $("#overallLength").text("");
+        $("#nationality").text("");
+        $("#port").text("");
+        $("#owner").text("");
+        $("#phone").text("");
+        $("#email").text("");
+    }
+}
+
+function prettyPrintItem(item) {
+    if (item === undefined || item === null || item === "" || item === " ") {
+        return "-";
+    } else if (item == true) {
+        return "on";
+    } else if (item == false) {
+        return "ei ole";
+    } else {
+        return item;
+    }
+}
+
+function prettyDate(time) {
+    let x = new Date(time);
+    return x.getDay() + "." + x.getMonth() + "." + x.getFullYear();
 }
 
 

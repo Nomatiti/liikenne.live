@@ -109,7 +109,7 @@ html {
 }
 .loader {
     border: 16px solid #f3f3f3; /* Light grey */
-    border-top: 16px solid #067bc2; /* Blue */
+    border-top: 16px solid #1c77c3; /* Blue */
     border-radius: 50%;
     width: 120px;
     height: 120px;
@@ -142,10 +142,10 @@ html {
 }
 
 .top-bar, .top-bar ul {
-    background-color: #067bc2 !important;
+    background-color: #1c77c3 !important;
 }
 .title-bar {
-    background-color: #067bc2 !important;
+    background-color: #1c77c3 !important;
 }
 .menu-text {
     color: white !important;
@@ -226,7 +226,7 @@ html {
     padding: 3px 0 0 10px !important;
 }
 .info:hover {
-    background-color: #0f7ec2;
+    background-color: #1c77c3;
 }
 .grid {
     display: grid;
@@ -244,7 +244,7 @@ html {
     border: 1px solid #929292;
     border-bottom: 1px solid rgba(168, 168, 168, 0.34);
     border-radius: 0.5rem 0.5rem 0 0;
-    background-color: #ff6f59;
+    background-color: #33A1FD;
     padding: 5px 0 0 12px;
 }
 .infoboxHeaderText {

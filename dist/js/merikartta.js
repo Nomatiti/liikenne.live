@@ -9,6 +9,7 @@ var invertFilter = false;
 
 var allMetadata = [];
 var vesselTypes = [];
+var vesselDetails = [];
 
 var bounds = [
     [4.18, 55.6], // Southwest coordinates
@@ -59,13 +60,15 @@ map.on('style.load', function () {
             "circle-color": {
                 property: "Type",
                 stops: [
-                    [0, "#060606"],
+                    [0, "#727272"],
                     [10, "#ff2a27"],
                     [40, "#fffe2d"],
                     [50, "#4affeb"],
                     [60, "#5aff3c"],
                     [80, "#ffa509"],
-                    [100, "#3845ff"]
+                    [90, "#ff00f6"],
+                    [99, "#3845ff"],
+                    [100, "#d9cdff"]
                 ]
             },
             "circle-stroke-width": 3,
@@ -142,16 +145,46 @@ map.on('style.load', function () {
             ]
         }
     });
+    map.getSource('vessels').setData(JSON.parse(GeoJSONvesselCollection(vessels)));
 });
 
 HttpReq("https://meri.digitraffic.fi/api/v1/metadata/vessels", function () {
     allMetadata = JSON.parse(this.responseText);
 });
 
-    HttpReq("https://meri.digitraffic.fi/api/v1/metadata/code-descriptions", function () {
-        vesselTypes = JSON.parse(this.responseText).vesselTypes;
-        console.log(vesselTypes);
+HttpReq("https://meri.digitraffic.fi/api/v1/metadata/code-descriptions", function () {
+    vesselTypes = JSON.parse(this.responseText).vesselTypes;
+
+    let codes = [];
+    vesselTypes.forEach(function (element) {
+        codes.push(element.code);
     });
+    getVesselDetails(codes);
+});
+
+function getVesselDetails(codes) {
+    let ammount = codes.length;
+    let ready = 0;
+    codes.forEach(function (code) {
+        HttpReq("https://meri.digitraffic.fi/api/v1/metadata/vessel-details?vesselTypeCode=" + code, function () {
+            vesselDetails = vesselDetails.concat(JSON.parse(this.responseText));
+            ready ++;
+            if (ready === ammount) {
+                updateType();
+            }
+        });
+    });
+}
+
+function updateType() {
+    vessels.forEach(function (element) {
+        let index = searchVesselMetadata(vesselDetails, element.Mmsi);
+        if (index !== -1) {
+            element.Type = vesselDetails[index].vesselConstruction.vesselTypeCode;
+        }
+    });
+}
+
 
 let tries = 0;
 //websocket: GPS-locations of all vessels and metadata
@@ -262,7 +295,16 @@ map.on('click', 'Vessels', function (e) {
         let index = searchVesselFromArray(selectedVessel, vessels);
         if (index != undefined) {
             //updateSidePanelHSL(vessels[index]);
-            console.log(vessels[index].Type);
+
+            let detailsIndex = searchVesselMetadata(vesselDetails, selectedVessel);
+
+            if (detailsIndex != -1) {
+                updateVesselDetails(vesselDetails[detailsIndex]);
+                $("#infoBox").removeClass("hidden");
+            } else {
+                updateVesselDetails({clear: true});
+                $("#infoBox").addClass("hidden");
+            }
         }
 
         var viewportWidth = $(window).width() / parseFloat($("html").css("font-size"));
@@ -272,7 +314,6 @@ map.on('click', 'Vessels', function (e) {
         document.getElementById('SeeMoreInfoText').classList.add('hidden');
         document.getElementById('gridLeft').classList.remove('hidden');
         resizeAllGridItems();
-        console.log(selectedVessel);
     }
 });
 

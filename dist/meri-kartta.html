@@ -331,103 +331,138 @@
                     <div class="infobox">
                         <div class="infoboxHeader">
                             <h3 class="infoboxHeaderText">
-                                <span class="material-icons">train</span>
-                                <span id="trainNumber">-</span>
+                                <span class="material-icons">directions_boat</span>
+                                <span id="name">SILJA SYMPHONY</span>
                             </h3>
                         </div>
                         <div class="infoboxBody">
-                            <h4 id="mistämihin">-</h4>
+                            <h4 id="määränpää">FI HEL > FI MHQ</h4>
                             <hr>
                             <p>
-                                <span class="lihava">Operaattori: </span>
-                                <span id="operator">-</span>
+                                <span class="lihava">Callsign: </span>
+                                <span id="callsign">SCGB</span>
                             </p>
-                            <p id="category"></p>
-                            <hr>
-                            <span class="lihava">Nopeus: </span>
-                            <span id="speed">-</span><span> km/h</span>
                             <p>
-                                <span class="lihava">Seuraava asema: </span>
-                                <span id="NextStation"></span>
+                                <span data-tooltip tabindex="1" title="Maritime Mobile Service Identity" class="lihava">Mmsi: </span>
+                                <span id="mmsi"></span>
+                            </p>
+                            <p>
+                                <span class="lihava">Tyyppi: </span>
+                                <span id="category">Matkustaja-autolautta</span>
                             </p>
                             <hr>
                             <p>
-                                <span class="lihava" id="DelayText">Etuajassa: </span>
-                                <span class="green" id="Delay">-</span>
-                                <span> min</span>
+                                <span class="lihava">Nopeus: </span>
+                                <span id="speed">-</span><span> solmua</span>
                             </p>
-                            <p style="font-size: 0.97rem;">
-                                <span class="lihava">Perillä: </span>
-                                <span>
-                            <span id="ArrivalTime">--:--</span>
-                            (Ennustettu aika:
-                            <span id="RealArrival">--:--</span>
-                            )
-                        </span>
+                            <p>
+                                <span class="lihava">Kääntymisnopeus: </span>
+                                <span id="turningSpeed">-</span><span> °/min</span>
+                            </p>
+                            <p>
+                                <span class="lihava">Syväys: </span>
+                                <span id="draught">7.1</span><span> m</span>
+                            </p>
+                            <hr>
+                            <p>
+                                <span class="lihava" id="DelayText">Eta: </span>
+                                <span id="Eta">-</span>
                             </p>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="item">
+            <div class="item hidden" id="infoBox">
                 <div class="content">
                     <div class="infobox">
                         <div class="infoboxHeader">
                             <h3 class="infoboxHeaderText">
-                                Kokoonpano
+                                Tietoja
                             </h3>
                         </div>
                         <div class="infoboxBody">
                             <div id="compositionDiv">
-                                -
+                                <p>
+                                    <span class="lihava">Painolastitankki: </span>
+                                    <span id="ballast">kyllä</span>
+                                </p>
+                                <p>
+                                    <span class="lihava">Kaksinkertainen pohja: </span>
+                                    <span id="doubleBottom">ei</span>
+                                </p>
+                                <p>
+                                    <span class="lihava">Inertti kaasujärjestelmä: </span>
+                                    <span id="gasSystem">ei</span>
+                                </p>
+                                <hr>
+                                <p>
+                                    <span class="lihava">Jääluokka: </span>
+                                    <span id="iceClass">IAS</span>
+                                </p>
+                                <p>
+                                    <span class="lihava">Myöntämispäivä: </span>
+                                    <span id="issueDate">239852935239</span>
+                                </p>
+                                <p>
+                                    <span class="lihava">Jääluokan päättymispäivä: </span>
+                                    <span id="iceEndDate">239852935239</span>
+                                </p>
+                                <p>
+                                    <span class="lihava">Myöntäjä: </span>
+                                    <span id="iceIssuer">Tallinn</span>
+                                </p>
+                                <hr>
+                                <p>
+                                    <span class="lihava">Bruttopaino: </span>
+                                    <span id="gross">4650</span>
+                                </p>
+                                <p>
+                                    <span class="lihava">Nettopaino: </span>
+                                    <span id="deathWeight">335</span>
+                                </p>
+                                <p>
+                                    <span class="lihava">Moottoriteho: </span>
+                                    <span id="motorPower">4*7950</span>
+                                </p>
+                                <p>
+                                    <span class="lihava">Maksimi nopeus: </span>
+                                    <span id="maxSpeed">-</span>
+                                </p>
+                                <p>
+                                    <span class="lihava">Korkeus: </span>
+                                    <span id="height">14.7</span>
+                                </p>
+                                <p>
+                                    <span class="lihava">Pituus: </span>
+                                    <span id="length">172.15</span>
+                                </p>
+                                <p>
+                                    <span class="lihava">Koko pituus: </span>
+                                    <span id="overallLength">201.78</span>
+                                </p>
+                                <hr>
+                                <p>
+                                    <span class="lihava">Rekisteröimismaa: </span>
+                                    <span id="nationality">EE</span>
+                                </p>
+                                <p>
+                                    <span class="lihava">Kotisatama: </span>
+                                    <span id="port">Tallinna</span>
+                                </p>
+                                <p>
+                                    <span class="lihava">Omistaja: </span>
+                                    <span id="owner">-</span>
+                                </p>
+                                <p>
+                                    <span class="lihava">Puhelin: </span>
+                                    <span id="phone">-</span>
+                                </p>
+                                <p>
+                                    <span class="lihava">E-mail: </span>
+                                    <span id="email">-</span>
+                                </p>
                             </div>
-                            <div class="lihava" style="margin-top: 1.55rem;">
-                                Merkkien selitykset:
-                                <span data-tooltip tabindex="1" title="Sähköveturi" class="material-icons">flash_on</span>
-                                <span data-tooltip tabindex="1" title="Dieselveturi" class="material-icons">local_gas_station</span>
-                                <span data-tooltip tabindex="1" title="Eläinvaunu" class="material-icons">pets</span>
-                                <span data-tooltip tabindex="1" title="TV" class="material-icons">personal_video</span>
-                                <span data-tooltip tabindex="1" title="Ravintola" class="material-icons">restaurant</span>
-                                <span data-tooltip tabindex="1" title="Leikkihuone" class="material-icons">child_friendly</span>
-                                <span data-tooltip tabindex="1" title="Matkatavarat" class="material-icons">work</span>
-                                <span data-tooltip tabindex="1" title="Tupakointi" class="material-icons">smoking_rooms</span>
-                                <span data-tooltip tabindex="1" title="Esteetön" class="material-icons">accessible</span>
-                            </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="item">
-                <div class="content">
-                    <div class="infobox">
-                        <div class="infoboxHeader">
-                            <h3 class="infoboxHeaderText">
-                                Asemat
-                            </h3>
-                        </div>
-                        <div class="infoboxBody">
-                            <table id="stationsTable">
-                                <tbody>
-                                <tr>
-                                    <th>Saapuu</th>
-                                    <th>Asema</th>
-                                    <th>Lähtee</th>
-                                </tr>
-                                <tr>
-                                    <td>-</td>
-                                    <td>-</td>
-                                    <td>-</td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="item">
-                <div class="content">
-                    <div class="moreInfoLink">
-                        <a onclick="moreInfoPressed()">Näytä lisätietoja</a>
                     </div>
                 </div>
             </div>
@@ -454,16 +489,6 @@
     } else {
         document.getElementById('gridLeft').innerHTML = '';
     }
-
-    $("#infoButton").click(function() {
-        let Links = document.getElementById("offCanvas");
-        /*Links.classList.toggle("blur");
-        Links = document.getElementById("topBar");
-        Links.classList.toggle("blur");
-        Links = document.getElementById("alertBox");
-        Links.classList.toggle("hidden");*/
-    });
-    var oneTrain = false;
 </script>
 
 <script src="js/funktiot.js"></script>
