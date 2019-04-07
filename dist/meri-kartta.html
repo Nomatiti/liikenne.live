@@ -123,24 +123,135 @@
         </div>
         <div class="top-bar-right">
             <ul class="menu">
-                <ul class="dropdown menu barBlue" data-dropdown-menu>
+                <ul data-close-on-click=false data-close-on-click-inside=false class="dropdown menu barBlue" data-dropdown-menu>
                     <li class="has-submenu">
                         <a class="topBarLink" style="color: white;">Suodata</a>
-                        <ul class="submenu menu vertical" data-submenu>
+                        <ul data-close-on-click=false data-close-on-click-inside=false class="submenu menu vertical"
+                        data-submenu style="width: 300px">
                             <li>
                                 <div id="stationsSelect">
-                                    <label for="stationsCheck" id="stationsCheckText">Suodata (Hidastaa sivun
-                                        toimintaa ja suodatuksen toimiminen vie hetken aikaa):</label>
-                                    <input type="checkbox" id="filter">
+                                    <label for="stationsCheck" id="stationsCheckText">Matkustaja-alus</label>
+                                    <input type="checkbox" id="filter10">
                                 </div>
                             </li>
-                            <hr>
-                            <li><a onclick="changeMap('streets')">Kadut</a></li>
-                            <li><a onclick="changeMap('bright')">Kirkas</a></li>
-                            <li><a onclick="changeMap('Light')">Vaalea</a></li>
-                            <li><a onclick="changeMap('Dark')">Tumma</a></li>
-                            <hr>
-                            <li><a onclick="changeMap('satellite')">Satelliitti</a></li>
+                            <li>
+                                <div id="stationsSelect">
+                                    <label for="stationsCheck" id="stationsCheckText">Matkustaja-autolautta</label>
+                                    <input type="checkbox" id="filter20">
+                                </div>
+                            </li>
+                            <li>
+                            <div id="stationsSelect">
+                                <label for="stationsCheck" id="stationsCheckText">Junalautta</label>
+                                <input type="checkbox" id="filter30">
+                            </div>
+                        </li>
+                            <li>
+                            <div id="stationsSelect">
+                                <label for="stationsCheck" id="stationsCheckText">Roro</label>
+                                <input type="checkbox" id="filter40">
+                            </div>
+                        </li><li>
+                            <div id="stationsSelect">
+                                <label for="stationsCheck" id="stationsCheckText">Ajoneuvonkuljetusalus</label>
+                                <input type="checkbox" id="filter44">
+                            </div>
+                        </li><li>
+                            <div id="stationsSelect">
+                                <label for="stationsCheck" id="stationsCheckText">Konttialus</label>
+                                <input type="checkbox" id="filter50">
+                            </div>
+                        </li>
+                            <li>
+                            <div id="stationsSelect">
+                                <label for="stationsCheck" id="stationsCheckText">Kuiva-bulk (matkustaja)</label>
+                                <input type="checkbox" id="filter60">
+                            </div>
+                        </li>
+                            <li>
+                            <div id="stationsSelect">
+                                <label for="stationsCheck" id="stationsCheckText">Kuivalastialus</label>
+                                <input type="checkbox" id="filter70">
+                            </div>
+                        </li>
+                            <li>
+                            <div id="stationsSelect">
+                                <label for="stationsCheck" id="stationsCheckText">Säiliöalus</label>
+                                <input type="checkbox" id="filter80">
+                            </div>
+                        </li>
+                            <li>
+                            <div id="stationsSelect">
+                                <label for="stationsCheck" id="stationsCheckText">Öljysäiliöalus</label>
+                                <input type="checkbox" id="filter81">
+                            </div>
+                        </li>
+                            <li>
+                            <div id="stationsSelect">
+                                <label for="stationsCheck" id="stationsCheckText">Kaasusäiliöalus</label>
+                                <input type="checkbox" id="filter82">
+                            </div>
+                        </li>
+                            <li>
+                            <div id="stationsSelect">
+                                <label for="stationsCheck" id="stationsCheckText">Kemikaalisäiliöalus</label>
+                                <input type="checkbox" id="filter83">
+                            </div>
+                        </li>
+                            <li>
+                            <div id="stationsSelect">
+                                <label for="stationsCheck" id="stationsCheckText">Muu alus</label>
+                                <input type="checkbox" id="filter90">
+                            </div>
+                        </li>
+                            <li>
+                            <div id="stationsSelect">
+                                <label for="stationsCheck" id="stationsCheckText">Hinaaja</label>
+                                <input type="checkbox" id="filter91">
+                            </div>
+                        </li>
+                            <li>
+                            <div id="stationsSelect">
+                                <label for="stationsCheck" id="stationsCheckText">Proomu</label>
+                                <input type="checkbox" id="filter93">
+                            </div>
+                        </li>
+                            <li>
+                            <div id="stationsSelect">
+                                <label for="stationsCheck" id="stationsCheckText">Puskija</label>
+                                <input type="checkbox" id="filter94">
+                            </div>
+                        </li>
+                            <li>
+                            <div id="stationsSelect">
+                                <label for="stationsCheck" id="stationsCheckText">Puskuproomu</label>
+                                <input type="checkbox" id="filter95">
+                            </div>
+                        </li>
+                            <li>
+                            <div id="stationsSelect">
+                                <label for="stationsCheck" id="stationsCheckText">Säiliöproomu</label>
+                                <input type="checkbox" id="filter96">
+                            </div>
+                        </li>
+                            <li>
+                            <div id="stationsSelect">
+                                <label for="stationsCheck" id="stationsCheckText">Muu kuljetuskoneeton alus</label>
+                                <input type="checkbox" id="filter97">
+                            </div>
+                        </li>
+                            <li>
+                            <div id="stationsSelect">
+                                <label for="stationsCheck" id="stationsCheckText">Muu alus</label>
+                                <input type="checkbox" id="filter99">
+                            </div>
+                        </li>
+                            <li>
+                                <div id="stationsSelect">
+                                    <label for="stationsCheck" id="stationsCheckText">Luokittelemattomat</label>
+                                    <input type="checkbox" id="filter0">
+                                </div>
+                            </li>
                         </ul>
                     </li>
                 </ul>

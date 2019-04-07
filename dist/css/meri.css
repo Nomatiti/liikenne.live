@@ -178,7 +178,7 @@ html {
     margin: 0 0.5rem 0 0.5rem;
 }
 #stationsSelect {
-    padding: .7rem 1rem;
+    padding: 0rem 0.6rem;
 }
 #stationsCheckText {
     color: #434343;
@@ -226,7 +226,7 @@ html {
     padding: 3px 0 0 10px !important;
 }
 .info:hover {
-    background-color: #ff6239;
+    background-color: #0f7ec2;
 }
 .grid {
     display: grid;

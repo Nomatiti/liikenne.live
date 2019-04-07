@@ -1,6 +1,11 @@
 var vessels = [];
 var selectedVessel;
-var vesselFilter = [{key: "Type", value: [10, 20, 30, 40, 44, 50, 60, 70, "80", "81", "82", "83", 90, 91, 93, 94, 95, 96, 97, 99]}];
+var vesselNumbers = [];
+var vesselFilter = [{
+    key: "Type",
+    value: vesselNumbers
+}];
+var invertFilter = false;
 
 var allMetadata = [];
 var vesselTypes = [];
@@ -270,3 +275,83 @@ map.on('click', 'Vessels', function (e) {
         console.log(selectedVessel);
     }
 });
+
+$( "#filter0" ).prop( "checked", false);
+$( "#filter10" ).prop( "checked", false);
+$( "#filter20" ).prop( "checked", false);
+$( "#filter30" ).prop( "checked", false);
+$( "#filter40" ).prop( "checked", false);
+$( "#filter44" ).prop( "checked", false);
+$( "#filter50" ).prop( "checked", false);
+$( "#filter60" ).prop( "checked", false);
+$( "#filter70" ).prop( "checked", false);
+$( "#filter80" ).prop( "checked", false);
+$( "#filter81" ).prop( "checked", false);
+$( "#filter82" ).prop( "checked", false);
+$( "#filter83" ).prop( "checked", false);
+$( "#filter90" ).prop( "checked", false);
+$( "#filter91" ).prop( "checked", false);
+$( "#filter93" ).prop( "checked", false);
+$( "#filter94" ).prop( "checked", false);
+$( "#filter95" ).prop( "checked", false);
+$( "#filter96" ).prop( "checked", false);
+$( "#filter97" ).prop( "checked", false);
+$( "#filter99" ).prop( "checked", false);
+
+
+
+$("#filter0").click(function() {
+    $( "#filter10" ).prop( "checked", false);
+    $( "#filter20" ).prop( "checked", false);
+    $( "#filter30" ).prop( "checked", false);
+    $( "#filter40" ).prop( "checked", false);
+    $( "#filter44" ).prop( "checked", false);
+    $( "#filter50" ).prop( "checked", false);
+    $( "#filter60" ).prop( "checked", false);
+    $( "#filter70" ).prop( "checked", false);
+    $( "#filter80" ).prop( "checked", false);
+    $( "#filter81" ).prop( "checked", false);
+    $( "#filter82" ).prop( "checked", false);
+    $( "#filter83" ).prop( "checked", false);
+    $( "#filter90" ).prop( "checked", false);
+    $( "#filter91" ).prop( "checked", false);
+    $( "#filter93" ).prop( "checked", false);
+    $( "#filter94" ).prop( "checked", false);
+    $( "#filter95" ).prop( "checked", false);
+    $( "#filter96" ).prop( "checked", false);
+    $( "#filter97" ).prop( "checked", false);
+    $( "#filter99" ).prop( "checked", false);
+    vesselNumbers = [10, 20, 30, 40, 44, 50, 60, 70, 80, 81, 82, 83, 90, 91, 93, 94, 95, 96, 96, 99];
+    vesselFilter[0].value = vesselNumbers;
+    invertFilter = true;
+    map.getSource('vessels').setData(JSON.parse(GeoJSONvesselCollection(vessels)));
+});
+
+$("#filter10").click(buttonClicked);
+$( "#filter20" ).click(buttonClicked);
+$( "#filter30" ).click(buttonClicked);
+$( "#filter40" ).click(buttonClicked);
+$( "#filter44" ).click(buttonClicked);
+$( "#filter50" ).click(buttonClicked);
+$( "#filter60" ).click(buttonClicked);
+$( "#filter70" ).click(buttonClicked);
+$( "#filter80" ).click(buttonClicked);
+$( "#filter81" ).click(buttonClicked);
+$( "#filter82" ).click(buttonClicked);
+$( "#filter83" ).click(buttonClicked);
+$( "#filter90" ).click(buttonClicked);
+$( "#filter91" ).click(buttonClicked);
+$( "#filter93" ).click(buttonClicked);
+$( "#filter94" ).click(buttonClicked);
+$( "#filter95" ).click(buttonClicked);
+$( "#filter96" ).click(buttonClicked);
+$( "#filter97" ).click(buttonClicked);
+$( "#filter99" ).click(buttonClicked);
+
+function buttonClicked() {
+    $( "#filter0" ).prop( "checked", false);
+    vesselNumbers = filterStringVessels();
+    vesselFilter[0].value = vesselNumbers;
+    invertFilter = false;
+    map.getSource('vessels').setData(JSON.parse(GeoJSONvesselCollection(vessels)));
+}

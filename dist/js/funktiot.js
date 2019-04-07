@@ -1001,7 +1001,7 @@ function GeoJSONvesselCollection(array) {
     let features = [];
 
     array.forEach(function (element) {
-        let filter = filterObject(vesselFilter, element);
+        let filter = filterObject(vesselFilter, element, invertFilter);
         if (filter === true) {
             features.push(GeoJSONvessel(element));
         }
@@ -1017,7 +1017,7 @@ function GeoJSONvesselCollection(array) {
 
 //[{key: ###, value: ###}, {key: ###, value: [##, ##, ##]}, {key: ###, value: ###}]
 //returns false or true based on if the element passd the test
-function filterObject(filterArray, element) {
+function filterObject(filterArray, element, invert) {
     let passed = true;
 
     for (let i = 0; i < filterArray.length; i++) {
@@ -1040,7 +1040,78 @@ function filterObject(filterArray, element) {
             }
         }
     }
+    if (invert === true) {
+        if (passed === true) {
+            passed = false;
+        } else {
+            passed = true
+        }
+    }
     return passed;
+}
+
+function filterStringVessels() {
+    let values = [];
+    if ($("#filter10").is(":checked")) {
+        values.push(10);
+    }
+    if ($("#filter20").is(":checked")) {
+        values.push(20);
+    }
+    if ($("#filter30").is(":checked")) {
+        values.push(30);
+    }
+    if ($("#filter40").is(":checked")) {
+        values.push(40);
+    }
+    if ($("#filter44").is(":checked")) {
+        values.push(44);
+    }if ($("#filter50").is(":checked")) {
+        values.push(50);
+    }
+    if ($("#filter60").is(":checked")) {
+        values.push(60);
+    }
+    if ($("#filter70").is(":checked")) {
+        values.push(70);
+    }
+    if ($("#filter80").is(":checked")) {
+        values.push(80);
+    }
+    if ($("#filter81").is(":checked")) {
+        values.push(81);
+    }
+    if ($("#filter82").is(":checked")) {
+        values.push(82);
+    }
+    if ($("#filter83").is(":checked")) {
+        values.push(83);
+    }
+    if ($("#filter90").is(":checked")) {
+        values.push(90);
+    }
+    if ($("#filter91").is(":checked")) {
+        values.push(91);
+    }
+    if ($("#filter93").is(":checked")) {
+        values.push(93);
+    }
+    if ($("#filter94").is(":checked")) {
+        values.push(94);
+    }
+    if ($("#filter95").is(":checked")) {
+        values.push(95);
+    }
+    if ($("#filter96").is(":checked")) {
+        values.push(96);
+    }
+    if ($("#filter97").is(":checked")) {
+        values.push(96);
+    }
+    if ($("#filter99").is(":checked")) {
+        values.push(99);
+    }
+    return values;
 }
 
 
