@@ -6,7 +6,7 @@ function TrainLocation(number, lat, long, speed, time) {
     this.Time = new Date(time);
 }
 
-function Vessel(mmsi, lat, long, heading, rot, cog, sog, time, name, draught, callsign, eta, destination) {
+function Vessel(mmsi, lat, long, heading, rot, cog, sog, time, name, draught, callsign, eta, destination, type) {
     this.Mmsi = mmsi;
     this.Lat = lat;
     this.Long = long;
@@ -20,6 +20,30 @@ function Vessel(mmsi, lat, long, heading, rot, cog, sog, time, name, draught, ca
     this.Callsign = callsign;
     this.Eta = eta;
     this.Destination = destination;
+    this.Type = type;
+    this.arrival = function() {
+        let base2 = (this.Eta).toString(2);
+        let minutes = clamp(parseInt(base2.slice(-6), 2), 0, 60);
+        let hours = clamp(parseInt(base2.slice(-11, -6), 2), 0, 24);
+        let day = clamp(parseInt(base2.slice(-16, -11), 2), 0, 31);
+        let month = clamp(parseInt(base2.slice(0, 4), 2), 0, 12);
+        console.log(hours);
+        let timezoneCorrection = new Date().getTimezoneOffset() / -60;
+        console.log(timezoneCorrection);
+        hours = hours + timezoneCorrection;
+        console.log(hours);
+
+        if (hours > 24) {
+            hours = hours - 24;
+            day = day + 1;
+        }
+
+        return new Date(new Date(Date.now()).getFullYear(), month, day, hours, minutes);
+    };
+}
+
+function clamp(value, min, max) {
+    return Math.min(Math.max(value, min), max);
 }
 
 function HSL(type, desi, dir, oper, veh, tsi, spd, hdg, lat, long, acc, dl, odo, drst, start, dest) {
@@ -950,6 +974,7 @@ function GeoJSONvessel(object) {
             Rot: object.Rot,
             Callsign: object.Callsign,
             Sog: object.Sog,
+            Type: object.Type
         },
         geometry: {
             type: "Point",
@@ -976,7 +1001,10 @@ function GeoJSONvesselCollection(array) {
     let features = [];
 
     array.forEach(function (element) {
-        features.push(GeoJSONvessel(element));
+        let filter = filterObject(vesselFilter, element);
+        if (filter === true) {
+            features.push(GeoJSONvessel(element));
+        }
     });
 
     let collection = {
@@ -986,6 +1014,35 @@ function GeoJSONvesselCollection(array) {
 
     return JSON.stringify(collection);
 }
+
+//[{key: ###, value: ###}, {key: ###, value: [##, ##, ##]}, {key: ###, value: ###}]
+//returns false or true based on if the element passd the test
+function filterObject(filterArray, element) {
+    let passed = true;
+
+    for (let i = 0; i < filterArray.length; i++) {
+        if (passed === false) {
+            break;
+        }
+        if (Array.isArray(filterArray[i].value) === true) {
+            for (let x = 0; x < filterArray[i].value.length; x++) {
+                if (filterArray[i].value[x] == element[filterArray[i].key]) {
+                    break;
+                } else if (x === filterArray[i].value.length - 1) {
+                    passed = false;
+                    break;
+                }
+            }
+        } else {
+            if (filterArray[i].value != element[filterArray[i].key]) {
+                passed = false;
+                break;
+            }
+        }
+    }
+    return passed;
+}
+
 
 function searchVesselMetadata(array, mmsi) {
     for (let i = 0, len = array.length; i < len; i++) {
@@ -1006,7 +1063,7 @@ function parseVesselLocationMessage(message, vesselsArray) {
         console.warn('Cannot parse location message' + e);
         return;
     }
-    let vessel = new Vessel(response.mmsi, response.geometry.coordinates[1], response.geometry.coordinates[0], response.properties.heading, response.properties.rot, response.properties.cog, response.properties. sog, response.properties.timestampExternal, "-", 0, "-", 0, "-");
+    let vessel = new Vessel(response.mmsi, response.geometry.coordinates[1], response.geometry.coordinates[0], response.properties.heading, response.properties.rot, response.properties.cog, response.properties. sog, response.properties.timestampExternal, "-", 0, "-", 0, "-", "");
 
     //Search the vessel from array, if not in the array return undefined
     let vesselPosition = searchVesselFromArray(vessel.Mmsi, vesselsArray);
@@ -1021,6 +1078,7 @@ function parseVesselLocationMessage(message, vesselsArray) {
             vessel.Callsign = allMetadata[index].callSign;
             vessel.Eta = allMetadata[index].eta;
             vessel.Destination = allMetadata[index].destination;
+            vessel.Type = allMetadata[index].shipType;
         }
 
         //Vessel is new and not in the array -> Push the new vessel to the array

@@ -1,6 +1,9 @@
 var vessels = [];
+var selectedVessel;
+var vesselFilter = [{key: "Type", value: [10, 20, 30, 40, 44, 50, 60, 70, "80", "81", "82", "83", 90, 91, 93, 94, 95, 96, 97, 99]}];
 
 var allMetadata = [];
+var vesselTypes = [];
 
 var bounds = [
     [4.18, 55.6], // Southwest coordinates
@@ -31,24 +34,35 @@ map.on('style.load', function () {
     //map.getSource('Stations').setData(JSON.parse(GeoJSONstationsCollection(trainStations)));
 
     window.setInterval(function() {
-        map.getSource('Trains').setData(JSON.parse(GeoJSONvesselCollection(vessels)));
+        map.getSource('vessels').setData(JSON.parse(GeoJSONvesselCollection(vessels)));
         //map.flyTo({center: [allTrains[0].Long, allTrains[0].Lat]});
-    }, 1000);
+    }, 5000);
 
-    map.addSource("Trains", {
+    map.addSource("vessels", {
         type: "geojson",
         data: JSON.parse(GeoJSONvesselCollection(vessels)),
-        cluster: true,
+        cluster: false,
         clusterMaxZoom: 14, // Max zoom to cluster points on
         clusterRadius: 2.5 // Radius of each cluster when clustering points (defaults to 50)
     });
     map.addLayer({
-        id: "Trains",
+        id: "Vessels",
         interactive: false,
         type: "circle",
-        source: "Trains",
+        source: "vessels",
         "paint": {
-            "circle-color": "#469eff",
+            "circle-color": {
+                property: "Type",
+                stops: [
+                    [0, "#060606"],
+                    [10, "#ff2a27"],
+                    [40, "#fffe2d"],
+                    [50, "#4affeb"],
+                    [60, "#5aff3c"],
+                    [80, "#ffa509"],
+                    [100, "#3845ff"]
+                ]
+            },
             "circle-stroke-width": 3,
             "circle-stroke-color": "#ffffff",
             "circle-radius": [
@@ -64,14 +78,63 @@ map.on('style.load', function () {
             ]
         }
     });
+    map.loadImage("img/HSL-tram.png", function(error, image) {
+        if (error) throw error;
+        map.addImage("tram", image);
+    });
+    map.loadImage("img/HSL-train.png", function(error, image) {
+        if (error) throw error;
+        map.addImage("train", image);
+    });
+    map.loadImage("img/HSL-other.png", function(error, image) {
+        if (error) throw error;
+        map.addImage("other", image);
+    });
+    map.loadImage("img/HSL-lightblue.png", function(error, image) {
+        if (error) throw error;
+        map.addImage("vessel", image);
+    });
+    /* Style layer: A style layer ties together the source and image and specifies how they are displayed on the map. */
+    /*map.addLayer({
+        id: "Vessels",
+        type: "symbol",
+        /!* Source: A data source specifies the geographic coordinate where the image marker gets placed. *!/
+        source: "vessels",
+        layout: {
+            "icon-image": "vessel",
+            "icon-rotate": ["get", "Heading"],
+            "icon-allow-overlap": true,
+            "icon-offset": [0, -20],
+            "icon-size": [
+                "interpolate",
+                ["linear"],
+                ["zoom"],
+                0.8,
+                0.08,
+                22,
+                0.2
+            ],
+        }
+    });*/
     map.addLayer({
         id: "vesselName",
         type: "symbol",
-        source: "Trains",
+        source: "vessels",
         layout: {
             "text-field": "{Name}",
+            "text-allow-overlap": false,
             "text-font": ["Open Sans Regular", "Arial Unicode MS Bold"],
-            "text-size": 8
+            "text-size": [
+                "step",
+                ["zoom"],
+                8,
+                8,
+                10,
+                10,
+                14,
+                15,
+                16
+            ]
         }
     });
 });
@@ -79,6 +142,11 @@ map.on('style.load', function () {
 HttpReq("https://meri.digitraffic.fi/api/v1/metadata/vessels", function () {
     allMetadata = JSON.parse(this.responseText);
 });
+
+    HttpReq("https://meri.digitraffic.fi/api/v1/metadata/code-descriptions", function () {
+        vesselTypes = JSON.parse(this.responseText).vesselTypes;
+        console.log(vesselTypes);
+    });
 
 let tries = 0;
 //websocket: GPS-locations of all vessels and metadata
@@ -178,3 +246,27 @@ var options = {
 };
 
 client.connect(options);
+
+map.on('click', 'Vessels', function (e) {
+    if  (e.features[0].properties.Mmsi != undefined) {
+        //updateSidePanelVessel(new Vessel("-", "-", "-", "-", "-", "", 0, 0, "", "", "-", 0, "", 0, "",
+        // "Ladataan..."));
+        let description = e.features[0].properties;
+        selectedVessel = description.Mmsi;
+
+        let index = searchVesselFromArray(selectedVessel, vessels);
+        if (index != undefined) {
+            //updateSidePanelHSL(vessels[index]);
+            console.log(vessels[index].Type);
+        }
+
+        var viewportWidth = $(window).width() / parseFloat($("html").css("font-size"));
+        if (viewportWidth <= 64 ) {
+            $("#offCanvasBottom").foundation('open');
+        }
+        document.getElementById('SeeMoreInfoText').classList.add('hidden');
+        document.getElementById('gridLeft').classList.remove('hidden');
+        resizeAllGridItems();
+        console.log(selectedVessel);
+    }
+});
