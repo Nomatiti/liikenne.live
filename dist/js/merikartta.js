@@ -4,7 +4,11 @@ var vesselNumbers = [];
 var vesselFilter = [{
     key: "Type",
     value: vesselNumbers
-}];
+    },
+    {
+        key: "Name",
+        value: ""
+    }];
 var invertFilter = false;
 
 var allMetadata = [];
@@ -294,7 +298,8 @@ map.on('click', 'Vessels', function (e) {
 
         let index = searchVesselFromArray(selectedVessel, vessels);
         if (index != undefined) {
-            //updateSidePanelHSL(vessels[index]);
+            updateVesselInfo(vessels[index]);
+            console.log(vessels[index]);
 
             let detailsIndex = searchVesselMetadata(vesselDetails, selectedVessel);
 
@@ -396,3 +401,9 @@ function buttonClicked() {
     invertFilter = false;
     map.getSource('vessels').setData(JSON.parse(GeoJSONvesselCollection(vessels)));
 }
+let nameFilter = $("#nameFilter");
+nameFilter.val("");
+nameFilter.on("input", function () {
+    vesselFilter[1].value = nameFilter.val();
+    map.getSource('vessels').setData(JSON.parse(GeoJSONvesselCollection(vessels)));
+});

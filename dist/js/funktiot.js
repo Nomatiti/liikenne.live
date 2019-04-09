@@ -26,12 +26,9 @@ function Vessel(mmsi, lat, long, heading, rot, cog, sog, time, name, draught, ca
         let minutes = clamp(parseInt(base2.slice(-6), 2), 0, 60);
         let hours = clamp(parseInt(base2.slice(-11, -6), 2), 0, 24);
         let day = clamp(parseInt(base2.slice(-16, -11), 2), 0, 31);
-        let month = clamp(parseInt(base2.slice(0, 4), 2), 0, 12);
-        console.log(hours);
+        let month = clamp(parseInt(base2.slice(0, 4), 2) - 5, 0, 12);
         let timezoneCorrection = new Date().getTimezoneOffset() / -60;
-        console.log(timezoneCorrection);
         hours = hours + timezoneCorrection;
-        console.log(hours);
 
         if (hours > 24) {
             hours = hours - 24;
@@ -1034,9 +1031,32 @@ function filterObject(filterArray, element, invert) {
                 }
             }
         } else {
-            if (filterArray[i].value != element[filterArray[i].key]) {
-                passed = false;
-                break;
+
+            if (typeof filterArray[i].value === "string") {
+                let filterStringLength = filterArray[i].value.length;
+                let valueLength = element[filterArray[i].key].length;
+
+                if  (valueLength >= filterStringLength) {
+                    for (let wordPosition = 0; wordPosition <= (valueLength - filterStringLength); wordPosition++) {
+                        let found = element[filterArray[i].key].toLowerCase().startsWith(filterArray[i].value.toLowerCase(), wordPosition);
+
+                        if (found === true) {
+                            break;
+                        }
+                        if (found === false && wordPosition === valueLength - filterStringLength) {
+                            passed = false;
+                            break;
+                        }
+                    }
+                } else {
+                    passed = false;
+                    break;
+                }
+            } else {
+                if (filterArray[i].value != element[filterArray[i].key]) {
+                    passed = false;
+                    break;
+                }
             }
         }
     }
@@ -1215,7 +1235,27 @@ function parseVesselMetadataMessage(message, vesselsArray) {
         vessel.Callsign = response.callSign;
         vessel.Eta = response.eta;
         vessel.Destination = response.destination;
+
+        if (vessel.Mmsi === selectedVessel) {
+            updateVesselInfo(vessel);
+        }
     }
+}
+
+function scale(num, in_min, in_max, out_min, out_max) {
+    return (num - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
+
+function updateVesselInfo(object) {
+    $("#name").text(prettyPrintItem(object.Name));
+    $("#määränpää").text(prettyPrintItem(object.Destination));
+    $("#callsign").text(prettyPrintItem(object.Callsign));
+    $("#mmsi").text(prettyPrintItem(object.Mmsi));
+    $("#category").text(prettyPrintItem(typecodeToString(object.Type)));
+    $("#speed").text(prettyPrintItem(object.Sog));
+    $("#turningSpeed").text(prettyPrintItem(object.Rot));
+    $("#draught").text(prettyPrintItem(object.Draught));
+    $("#Eta").text(prettyPrintItem(object.arrival().toLocaleString()));
 }
 
 function updateVesselDetails(object) {
@@ -1224,8 +1264,8 @@ function updateVesselDetails(object) {
         $("#doubleBottom").text(prettyPrintItem(object.vesselConstruction.doubleBottom));
         $("#gasSystem").text(prettyPrintItem(object.vesselConstruction.inertGasSystem));
         $("#iceClass").text(prettyPrintItem(object.vesselConstruction.iceClassCode));
-        $("#issueDate").text(prettyDate(object.vesselConstruction.iceClassIssueDate));
-        $("#iceEndDate").text(prettyDate(object.vesselConstruction.iceClassEndDate));
+        $("#issueDate").text(new Date(object.vesselConstruction.iceClassIssueDate).toLocaleDateString());
+        $("#iceEndDate").text(new Date(object.vesselConstruction.iceClassEndDate).toLocaleDateString());
         $("#iceIssuer").text(prettyPrintItem(object.vesselConstruction.iceClassIssuePlace));
         $("#ballast").text(prettyPrintItem(object.vesselConstruction.ballastTank));
         $("#gross").text(prettyPrintItem(object.vesselDimensions.grossTonnage));
@@ -1267,9 +1307,9 @@ function updateVesselDetails(object) {
 function prettyPrintItem(item) {
     if (item === undefined || item === null || item === "" || item === " ") {
         return "-";
-    } else if (item == true) {
+    } else if (item === true) {
         return "on";
-    } else if (item == false) {
+    } else if (item === false) {
         return "ei ole";
     } else {
         return item;
@@ -1279,6 +1319,15 @@ function prettyPrintItem(item) {
 function prettyDate(time) {
     let x = new Date(time);
     return x.getDay() + "." + x.getMonth() + "." + x.getFullYear();
+}
+
+function typecodeToString(code) {
+    for (i = 0; i < vesselTypes.length; i++) {
+        if (vesselTypes[i].code == code) {
+            return vesselTypes[i].description;
+        }
+    }
+    return "";
 }
 
 
