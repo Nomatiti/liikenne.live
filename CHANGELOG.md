@@ -1,3 +1,6 @@
+### 0.7.0 (9.4.2019)
+* Meriliikenteen seuranta lisätty! Maaliikenteen väri muutettu vihreäksi, koska sininen sopii paremmin merilikenteeseen.
+
 ### 0.6.1 (6.4.2019)
 * Lisätty linkki juho-tyrvainen.fi sivulle footeriin (issue #5)
 

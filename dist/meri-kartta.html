@@ -29,25 +29,23 @@
     <link href="https://fonts.googleapis.com/css?family=Lato:400,900" rel="stylesheet">
 
     <!--Google ads-->
-    <!--TODO: remove comment-->
-    <!--<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <script>
         (adsbygoogle = window.adsbygoogle || []).push({
             google_ad_client: "ca-pub-1422283744181947",
             enable_page_level_ads: true
         });
-    </script>-->
+    </script>
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <!--TODO: remove comment-->
-    <!--<script async src="https://www.googletagmanager.com/gtag/js?id=UA-132395802-1"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-132395802-1"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
 
-        gtag('config', 'UA-132395802-1', {'site_speed_sample_rate': 25});
-    </script>-->
+        gtag('config', 'UA-132395802-1', {'site_speed_sample_rate': 25, 'anonymize_ip': true});
+    </script>
 
 
     <script src="js/vendor/modernizr-3.6.0.min.js"></script>
@@ -63,7 +61,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.5.1/dist/css/foundation.min.css" integrity="sha256-1mcRjtAxlSjp6XJBgrBeeCORfBp/ppyX4tsvpQVCcpA= sha384-b5S5X654rX3Wo6z5/hnQ4GBmKuIJKMPwrJXn52ypjztlnDK2w9+9hSMBz/asy9Gw sha512-M1VveR2JGzpgWHb0elGqPTltHK3xbvu3Brgjfg4cg5ZNtyyApxw/45yHYsZ/rCVbfoO5MSZxB241wWq642jLtA==" crossorigin="anonymous">
     <!-- Compressed JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.5.1/dist/js/foundation.min.js" integrity="sha256-WUKHnLrIrx8dew//IpSEmPN/NT3DGAEmIePQYIEJLLs= sha384-53StQWuVbn6figscdDC3xV00aYCPEz3srBdV/QGSXw3f19og3Tq2wTRe0vJqRTEO sha512-X9O+2f1ty1rzBJOC8AXBnuNUdyJg0m8xMKmbt9I3Vu/UOWmSg5zG+dtnje4wAZrKtkopz/PEDClHZ1LXx5IeOw==" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="css/main1.min.css">
+    <link rel="stylesheet" href="css/meri.min.css">
 
     <!--<script src="http://www.hivemq.com/demos/websocket-client/js/mqttws31.js" type="text/javascript"></script>-->
     <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js" type="text/javascript"></script>-->
@@ -87,10 +85,8 @@
         <i class="material-icons" id="error">
             error_outline
         </i>
-        <p style="text-align: justify;">Ongelmia yhteyden muodostamisessa. Ongelma voi olla Traffic
-            Management Finlandin palvelussa tai netissäsi on estetty palvelun tarvitsema websocket-yhteys (esimerkiksi
-            koulun
-            netissä palvelu ei pakosti toimi). Voit kokeilla <a href="javascript:location.reload();">auttaisiko sivun
+        <p style="text-align: justify;">Ongelmia yhteyden muodostamisessa. Ongelma voi olla esimerkiksi Traffic
+            Management Finlandin palvelussa. Voit kokeilla <a href="javascript:location.reload();">auttaisiko sivun
                 päivittäminen</a>.</p>
     </div>
 </div>
@@ -125,29 +121,146 @@
         </div>
         <div class="top-bar-right">
             <ul class="menu">
-                <ul class="dropdown menu barBlue" data-dropdown-menu>
+                <ul data-close-on-click=false data-close-on-click-inside=false class="dropdown menu barBlue" data-dropdown-menu>
                     <li class="has-submenu">
                         <a class="topBarLink" style="color: white;">Suodata</a>
-                        <ul class="submenu menu vertical" data-submenu>
+                        <ul data-close-on-click=false data-close-on-click-inside=false class="submenu menu vertical"
+                        data-submenu style="width: 300px">
+                            <li>
+                                <label>
+                                    <input id="nameFilter" style="margin: 0.8rem 0 0.4rem 0.8rem;" type="text"
+                                           placeholder="Suodata nimen avulla">
+                                </label>
+                            </li>
                             <li>
                                 <div id="stationsSelect">
-                                    <label for="stationsCheck" id="stationsCheckText">Suodata (Hidastaa sivun
-                                        toimintaa ja suodatuksen toimiminen vie hetken aikaa):</label>
-                                    <input type="checkbox" id="filter">
+                                    <label for="stationsCheck" id="stationsCheckText">Matkustaja-alus</label>
+                                    <input type="checkbox" id="filter10">
                                 </div>
                             </li>
-                            <hr>
-                            <li><a onclick="changeMap('streets')">Kadut</a></li>
-                            <li><a onclick="changeMap('bright')">Kirkas</a></li>
-                            <li><a onclick="changeMap('Light')">Vaalea</a></li>
-                            <li><a onclick="changeMap('Dark')">Tumma</a></li>
-                            <hr>
-                            <li><a onclick="changeMap('satellite')">Satelliitti</a></li>
+                            <li>
+                                <div id="stationsSelect">
+                                    <label for="stationsCheck" id="stationsCheckText">Matkustaja-autolautta</label>
+                                    <input type="checkbox" id="filter20">
+                                </div>
+                            </li>
+                            <li>
+                            <div id="stationsSelect">
+                                <label for="stationsCheck" id="stationsCheckText">Junalautta</label>
+                                <input type="checkbox" id="filter30">
+                            </div>
+                        </li>
+                            <li>
+                            <div id="stationsSelect">
+                                <label for="stationsCheck" id="stationsCheckText">Roro</label>
+                                <input type="checkbox" id="filter40">
+                            </div>
+                        </li><li>
+                            <div id="stationsSelect">
+                                <label for="stationsCheck" id="stationsCheckText">Ajoneuvonkuljetusalus</label>
+                                <input type="checkbox" id="filter44">
+                            </div>
+                        </li><li>
+                            <div id="stationsSelect">
+                                <label for="stationsCheck" id="stationsCheckText">Konttialus</label>
+                                <input type="checkbox" id="filter50">
+                            </div>
+                        </li>
+                            <li>
+                            <div id="stationsSelect">
+                                <label for="stationsCheck" id="stationsCheckText">Kuiva-bulk (matkustaja)</label>
+                                <input type="checkbox" id="filter60">
+                            </div>
+                        </li>
+                            <li>
+                            <div id="stationsSelect">
+                                <label for="stationsCheck" id="stationsCheckText">Kuivalastialus</label>
+                                <input type="checkbox" id="filter70">
+                            </div>
+                        </li>
+                            <li>
+                            <div id="stationsSelect">
+                                <label for="stationsCheck" id="stationsCheckText">Säiliöalus</label>
+                                <input type="checkbox" id="filter80">
+                            </div>
+                        </li>
+                            <li>
+                            <div id="stationsSelect">
+                                <label for="stationsCheck" id="stationsCheckText">Öljysäiliöalus</label>
+                                <input type="checkbox" id="filter81">
+                            </div>
+                        </li>
+                            <li>
+                            <div id="stationsSelect">
+                                <label for="stationsCheck" id="stationsCheckText">Kaasusäiliöalus</label>
+                                <input type="checkbox" id="filter82">
+                            </div>
+                        </li>
+                            <li>
+                            <div id="stationsSelect">
+                                <label for="stationsCheck" id="stationsCheckText">Kemikaalisäiliöalus</label>
+                                <input type="checkbox" id="filter83">
+                            </div>
+                        </li>
+                            <li>
+                            <div id="stationsSelect">
+                                <label for="stationsCheck" id="stationsCheckText">Muu alus</label>
+                                <input type="checkbox" id="filter90">
+                            </div>
+                        </li>
+                            <li>
+                            <div id="stationsSelect">
+                                <label for="stationsCheck" id="stationsCheckText">Hinaaja</label>
+                                <input type="checkbox" id="filter91">
+                            </div>
+                        </li>
+                            <li>
+                            <div id="stationsSelect">
+                                <label for="stationsCheck" id="stationsCheckText">Proomu</label>
+                                <input type="checkbox" id="filter93">
+                            </div>
+                        </li>
+                            <li>
+                            <div id="stationsSelect">
+                                <label for="stationsCheck" id="stationsCheckText">Puskija</label>
+                                <input type="checkbox" id="filter94">
+                            </div>
+                        </li>
+                            <li>
+                            <div id="stationsSelect">
+                                <label for="stationsCheck" id="stationsCheckText">Puskuproomu</label>
+                                <input type="checkbox" id="filter95">
+                            </div>
+                        </li>
+                            <li>
+                            <div id="stationsSelect">
+                                <label for="stationsCheck" id="stationsCheckText">Säiliöproomu</label>
+                                <input type="checkbox" id="filter96">
+                            </div>
+                        </li>
+                            <li>
+                            <div id="stationsSelect">
+                                <label for="stationsCheck" id="stationsCheckText">Muu kuljetuskoneeton alus</label>
+                                <input type="checkbox" id="filter97">
+                            </div>
+                        </li>
+                            <li>
+                            <div id="stationsSelect">
+                                <label for="stationsCheck" id="stationsCheckText">Muu alus</label>
+                                <input type="checkbox" id="filter99">
+                            </div>
+                        </li>
+                            <li>
+                                <div id="stationsSelect">
+                                    <label for="stationsCheck" id="stationsCheckText">Luokittelemattomat</label>
+                                    <input type="checkbox" id="filter0">
+                                </div>
+                            </li>
                         </ul>
                     </li>
                 </ul>
                 <li class="barBlue">
-                    <a class="topBarLink info" id="infoButton" href="./info.html">i</a>
+                    <a class="topBarLink info" id="infoButton" href="./info-meri.html">i</a>
                 </li>
                 <!--<li><input type="search" id="searchInputBox" placeholder="Etsi junaa tai liikennepaikkaa"></li>
                 <li><button type="button" id="searchButton" onclick="searchPressed()" class="button"><i
@@ -176,31 +289,34 @@
                             <h4 id="määränpää">-</h4>
                             <hr>
                             <p>
-                                <span class="lihava">Operaattori: </span>
-                                <span id="operator">-</span>
+                                <span class="lihava">Callsign: </span>
+                                <span id="callsign">-</span>
                             </p>
-                            <p id="category"></p>
-                            <hr>
-                            <span class="lihava">Eta: </span>
-                            <span id="eta">-</span>
                             <p>
-                                <span class="lihava">Seuraava asema: </span>
-                                <span id="NextStation"></span>
+                                <span data-tooltip tabindex="1" title="Maritime Mobile Service Identity" class="lihava">Mmsi: </span>
+                                <span id="mmsi"></span>
+                            </p>
+                            <p>
+                                <span class="lihava">Tyyppi: </span>
+                                <span id="category">-</span>
                             </p>
                             <hr>
                             <p>
-                                <span class="lihava" id="DelayText">Etuajassa: </span>
-                                <span class="green" id="Delay">-</span>
-                                <span> min</span>
+                                <span class="lihava">Nopeus: </span>
+                                <span id="speed">-</span><span> solmua</span>
                             </p>
-                            <p style="font-size: 0.97rem;">
-                                <span class="lihava">Perillä: </span>
-                                <span>
-                            <span id="ArrivalTime">--:--</span>
-                            (Ennustettu aika:
-                            <span id="RealArrival">--:--</span>
-                            )
-                        </span>
+                            <p>
+                                <span class="lihava">Kääntymisnopeus: </span>
+                                <span id="turningSpeed">-</span><span> °/min</span>
+                            </p>
+                            <p>
+                                <span class="lihava">Syväys: </span>
+                                <span id="draught">-</span><span> m</span>
+                            </p>
+                            <hr>
+                            <p>
+                                <span class="lihava" id="DelayText">Eta: </span>
+                                <span id="Eta">-</span>
                             </p>
                         </div>
                     </div>
@@ -213,7 +329,7 @@
     <div class="off-canvas-absolute reveal-for-large position-left" id="offCanvasLeft" data-off-canvas>
         <!-- Your menu or Off-canvas content goes here -->
 
-        <p id="SeeMoreInfoText">Klikkaa junaa nähdäksesi lisätietoa</p>
+        <p id="SeeMoreInfoText">Klikkaa alusta nähdäksesi lisätietoa</p>
 
         <!--Grid and info boxes-->
         <div class="grid hidden" id="gridLeft">
@@ -222,103 +338,134 @@
                     <div class="infobox">
                         <div class="infoboxHeader">
                             <h3 class="infoboxHeaderText">
-                                <span class="material-icons">train</span>
-                                <span id="trainNumber">-</span>
+                                <span class="material-icons">directions_boat</span>
+                                <span id="name">-</span>
                             </h3>
                         </div>
                         <div class="infoboxBody">
-                            <h4 id="mistämihin">-</h4>
+                            <h4 id="määränpää">-</h4>
                             <hr>
                             <p>
-                                <span class="lihava">Operaattori: </span>
-                                <span id="operator">-</span>
+                                <span class="lihava">Callsign: </span>
+                                <span id="callsign">-</span>
                             </p>
-                            <p id="category"></p>
-                            <hr>
-                            <span class="lihava">Nopeus: </span>
-                            <span id="speed">-</span><span> km/h</span>
                             <p>
-                                <span class="lihava">Seuraava asema: </span>
-                                <span id="NextStation"></span>
+                                <span data-tooltip tabindex="1" title="Maritime Mobile Service Identity" class="lihava">Mmsi: </span>
+                                <span id="mmsi"></span>
+                            </p>
+                            <p>
+                                <span class="lihava">Tyyppi: </span>
+                                <span id="category">-</span>
                             </p>
                             <hr>
                             <p>
-                                <span class="lihava" id="DelayText">Etuajassa: </span>
-                                <span class="green" id="Delay">-</span>
-                                <span> min</span>
+                                <span class="lihava">Nopeus: </span>
+                                <span id="speed">-</span><span> solmua</span>
                             </p>
-                            <p style="font-size: 0.97rem;">
-                                <span class="lihava">Perillä: </span>
-                                <span>
-                            <span id="ArrivalTime">--:--</span>
-                            (Ennustettu aika:
-                            <span id="RealArrival">--:--</span>
-                            )
-                        </span>
+                            <p>
+                                <span class="lihava">Kääntymisnopeus: </span>
+                                <span id="turningSpeed">-</span><span> °/min</span>
+                            </p>
+                            <p>
+                                <span class="lihava">Syväys: </span>
+                                <span id="draught">-</span><span> m</span>
+                            </p>
+                            <hr>
+                            <p>
+                                <span class="lihava" id="DelayText">Eta: </span>
+                                <span id="Eta">-</span>
                             </p>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="item">
+            <div class="item hidden" id="infoBox">
                 <div class="content">
                     <div class="infobox">
                         <div class="infoboxHeader">
                             <h3 class="infoboxHeaderText">
-                                Kokoonpano
+                                Tietoja
                             </h3>
                         </div>
                         <div class="infoboxBody">
                             <div id="compositionDiv">
-                                -
+                                <p>
+                                    <span class="lihava">Painolastitankki: </span>
+                                    <span id="ballast">-</span>
+                                </p>
+                                <p>
+                                    <span class="lihava">Kaksinkertainen pohja: </span>
+                                    <span id="doubleBottom">-</span>
+                                </p>
+                                <p>
+                                    <span class="lihava">Inertti kaasujärjestelmä: </span>
+                                    <span id="gasSystem">-</span>
+                                </p>
+                                <hr>
+                                <p>
+                                    <span class="lihava">Jääluokka: </span>
+                                    <span id="iceClass">-</span>
+                                </p>
+                                <p>
+                                    <span class="lihava">Myöntämispäivä: </span>
+                                    <span id="issueDate">-</span>
+                                </p>
+                                <p>
+                                    <span class="lihava">Jääluokan päättymispäivä: </span>
+                                    <span id="iceEndDate">-</span>
+                                </p>
+                                <p>
+                                    <span class="lihava">Myöntäjä: </span>
+                                    <span id="iceIssuer">-</span>
+                                </p>
+                                <hr>
+                                <p>
+                                    <span class="lihava">Bruttovetoisuus: </span>
+                                    <span id="gross">-</span><span> GT</span>
+                                </p>
+                                <p>
+                                    <span class="lihava">Moottoriteho: </span>
+                                    <span id="motorPower">-</span><span> kW</span>
+                                </p>
+                                <p>
+                                    <span class="lihava">Maksimi nopeus: </span>
+                                    <span id="maxSpeed">-</span>
+                                </p>
+                                <p>
+                                    <span class="lihava">Korkeus: </span>
+                                    <span id="height">-</span><span> m</span>
+                                </p>
+                                <p>
+                                    <span class="lihava">Pituus: </span>
+                                    <span id="length">-</span><span> m</span>
+                                </p>
+                                <p>
+                                    <span class="lihava">Koko pituus: </span>
+                                    <span id="overallLength">-</span><span> m</span>
+                                </p>
+                                <hr>
+                                <p>
+                                    <span class="lihava">Rekisteröimismaa: </span>
+                                    <span id="nationality">-</span>
+                                </p>
+                                <p>
+                                    <span class="lihava">Kotisatama: </span>
+                                    <span id="port">-</span>
+                                </p>
+                                <p>
+                                    <span class="lihava">Omistaja: </span>
+                                    <span id="owner">-</span>
+                                </p>
+                                <p>
+                                    <span class="lihava">Puhelin: </span>
+                                    <span id="phone">-</span>
+                                </p>
+                                <p>
+                                    <span class="lihava">E-mail: </span>
+                                    <span id="email">-</span>
+                                </p>
                             </div>
-                            <div class="lihava" style="margin-top: 1.55rem;">
-                                Merkkien selitykset:
-                                <span data-tooltip tabindex="1" title="Sähköveturi" class="material-icons">flash_on</span>
-                                <span data-tooltip tabindex="1" title="Dieselveturi" class="material-icons">local_gas_station</span>
-                                <span data-tooltip tabindex="1" title="Eläinvaunu" class="material-icons">pets</span>
-                                <span data-tooltip tabindex="1" title="TV" class="material-icons">personal_video</span>
-                                <span data-tooltip tabindex="1" title="Ravintola" class="material-icons">restaurant</span>
-                                <span data-tooltip tabindex="1" title="Leikkihuone" class="material-icons">child_friendly</span>
-                                <span data-tooltip tabindex="1" title="Matkatavarat" class="material-icons">work</span>
-                                <span data-tooltip tabindex="1" title="Tupakointi" class="material-icons">smoking_rooms</span>
-                                <span data-tooltip tabindex="1" title="Esteetön" class="material-icons">accessible</span>
-                            </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="item">
-                <div class="content">
-                    <div class="infobox">
-                        <div class="infoboxHeader">
-                            <h3 class="infoboxHeaderText">
-                                Asemat
-                            </h3>
-                        </div>
-                        <div class="infoboxBody">
-                            <table id="stationsTable">
-                                <tbody>
-                                <tr>
-                                    <th>Saapuu</th>
-                                    <th>Asema</th>
-                                    <th>Lähtee</th>
-                                </tr>
-                                <tr>
-                                    <td>-</td>
-                                    <td>-</td>
-                                    <td>-</td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="item">
-                <div class="content">
-                    <div class="moreInfoLink">
-                        <a onclick="moreInfoPressed()">Näytä lisätietoja</a>
                     </div>
                 </div>
             </div>
@@ -345,19 +492,9 @@
     } else {
         document.getElementById('gridLeft').innerHTML = '';
     }
-
-    $("#infoButton").click(function() {
-        let Links = document.getElementById("offCanvas");
-        /*Links.classList.toggle("blur");
-        Links = document.getElementById("topBar");
-        Links.classList.toggle("blur");
-        Links = document.getElementById("alertBox");
-        Links.classList.toggle("hidden");*/
-    });
-    var oneTrain = false;
 </script>
 
-<script src="js/funktiot.js"></script>
+<script src="js/funktiot_v0.7.0.js"></script>
 <script src="js/merikartta.js"></script>
 
 <script src="js/masonry.min.js"></script>

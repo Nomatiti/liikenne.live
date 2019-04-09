@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="ebace692-d864-454c-b9e3-fd4ec0f5627f" name="aws s3" url="https://liikenne.live">
+        <fileTransfer port="0" mountedRoot="$USER_HOME$/Upload_to_aws_s3" accessType="MOUNT" />
+      </webServer>
+    </option>
+  </component>
+</project>

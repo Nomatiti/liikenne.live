@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Raide - info</title>
-    <meta name="description" content="Miten raideliikenteen seurantaa käytetään">
+    <title>Meri - info</title>
+    <meta name="description" content="Miten meriliikenteen seurantaa käytetään">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=JykNmdRdGY">
@@ -27,20 +27,20 @@
     <!--Google ads-->
     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <script>
-      (adsbygoogle = window.adsbygoogle || []).push({
-        google_ad_client: "ca-pub-1422283744181947",
-        enable_page_level_ads: true
-      });
+        (adsbygoogle = window.adsbygoogle || []).push({
+            google_ad_client: "ca-pub-1422283744181947",
+            enable_page_level_ads: true
+        });
     </script>
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-132395802-1"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
-      gtag('config', 'UA-132395802-1', {'site_speed_sample_rate': 25, 'anonymize_ip': true});
+        gtag('config', 'UA-132395802-1', {'site_speed_sample_rate': 25, 'anonymize_ip': true});
     </script>
 
 
@@ -54,7 +54,7 @@
     <!-- Compressed JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.5.1/dist/js/foundation.min.js" integrity="sha256-WUKHnLrIrx8dew//IpSEmPN/NT3DGAEmIePQYIEJLLs= sha384-53StQWuVbn6figscdDC3xV00aYCPEz3srBdV/QGSXw3f19og3Tq2wTRe0vJqRTEO sha512-X9O+2f1ty1rzBJOC8AXBnuNUdyJg0m8xMKmbt9I3Vu/UOWmSg5zG+dtnje4wAZrKtkopz/PEDClHZ1LXx5IeOw==" crossorigin="anonymous"></script>
 
-    <link rel="stylesheet" href="css/juna.min.css">
+    <link rel="stylesheet" href="css/meri.min.css">
 
 </head>
 
@@ -77,41 +77,29 @@
         </div>
         <div class="top-bar-right">
             <ul id="topBarInfoText">
-                <p style="line-height: 0;">Info</p>
+                <p style="line-height: 0; font-size: 1.5rem; color: white; font-weight: bold; margin-bottom: 1rem">Info
+                </p>
             </ul>
         </div>
     </div>
 </div>
 
 <!--Grid and info boxes-->
-<h2 id="infoHeader">Info</h2>
+<h2 id="infoHeader" style="margin-top: 55px">Info: meriliikenne</h2>
 <div class="infoText">
     <article>
         <p>
-            Karttanäkymässä näkyy reaaliajassa junien GPS-sijainti, jos junan GPS-lähetin on päällä. Jos haluat
-            lisätietoja junasta, klikkaa sitä kartalla ja lisätiedot tulevat näkyviin. Mobiililla lisätieto palkki on
-            piilotettu ja tulee näkyviin kun valitset junan. Tableteilla palkki on aina näkyvissä kartan vasemmalla
-            puolella. Voit myös suoraan etsiä tiettyä junaa kirjoittamalla sen numero-osan hakupalkkiin.
-        </p>
-        <p>
-            Lisätietoa palkissa näkyy junan perustiedot, kokoonpano ja aikataulu. Kokoonpanon merkkien selitykset
-            näkyvät kun klikkaat merkkejä. Kun olet valinnut junan voit siirtyä yhden junan näkymään lisätietoa
-            palkin alaosassa olevan "Näytä lisätietoa" linkin kautta.
-        </p>
-    </article>
-    <article style="margin-top: 2.5rem;">
-        <p>
-            Yhden junan näkymässä näkyy juna kartalla, sen perustiedot, kokoonpano, aikataulu ja lisäksi vielä
-            myöhästymisten syyt. Yhden junan näkymässä kartta keskittää aina junan kohdalle, jos sen sijainti on
-            saatavilla. Karttaa ei voi siirtää, mutta zoomaus toimii. Kartta näkyy epäterävänä, kunnes junan sijainti
-            on saatavilla.
+            Karttalla näkyy reaaliajassa Itämerellä liikkuvien alusten sijainti. Klikkaamalla alusta saat sen tiedot
+            näkyviin. Voit myös suodattaa kartalla näkyviä aluksia suodata valikon kautta. Voit suodattaa aluksen
+            luokan perusteella tai nimen avulla. Lisäksi alukset joista ei ole saatavilla aluksen luokkaa tai
+            luokalla ei ole nimeä, näkyvät "luokittelemattomat" osion alla.
         </p>
     </article>
 </div>
 
 
 <script>
-  $(document).foundation();
+    $(document).foundation();
 </script>
 </body>
 
