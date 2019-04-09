@@ -281,6 +281,19 @@ html {
     font-size: 1.1rem;
     color: #424242;
 }
+.infoText {
+    margin: 4rem;
+    margin-top: 0;
+    text-align: justify;
+    font-size: 1.1rem;
+}
+#infoHeader {
+    font-weight: bold;
+    margin: 1rem;
+    color: #575757;
+    margin-left: 4.2rem;
+    margin-bottom: .5rem;
+}
 
 #map {
     /*padding-left: 0;*/

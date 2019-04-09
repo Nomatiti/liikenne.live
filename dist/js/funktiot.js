@@ -1269,7 +1269,6 @@ function updateVesselDetails(object) {
         $("#iceIssuer").text(prettyPrintItem(object.vesselConstruction.iceClassIssuePlace));
         $("#ballast").text(prettyPrintItem(object.vesselConstruction.ballastTank));
         $("#gross").text(prettyPrintItem(object.vesselDimensions.grossTonnage));
-        $("#deathWeight").text(prettyPrintItem(object.vesselDimensions.deathWeight));
         $("#motorPower").text(prettyPrintItem(object.vesselDimensions.enginePower));
         $("#maxSpeed").text(prettyPrintItem(object.vesselDimensions.maxSpeed));
         $("#height").text(prettyPrintItem(object.vesselDimensions.height));
@@ -1290,7 +1289,6 @@ function updateVesselDetails(object) {
         $("#iceIssuer").text("");
         $("#ballast").text("");
         $("#gross").text("");
-        $("#deathWeight").text("");
         $("#motorPower").text("");
         $("#maxSpeed").text("");
         $("#height").text("");
@@ -1302,6 +1300,7 @@ function updateVesselDetails(object) {
         $("#phone").text("");
         $("#email").text("");
     }
+    resizeAllGridItems();
 }
 
 function prettyPrintItem(item) {

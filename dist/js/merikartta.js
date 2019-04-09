@@ -90,7 +90,7 @@ map.on('style.load', function () {
             ]
         }
     });
-    map.loadImage("img/HSL-tram.png", function(error, image) {
+    /*map.loadImage("img/HSL-tram.png", function(error, image) {
         if (error) throw error;
         map.addImage("tram", image);
     });
@@ -105,7 +105,7 @@ map.on('style.load', function () {
     map.loadImage("img/HSL-lightblue.png", function(error, image) {
         if (error) throw error;
         map.addImage("vessel", image);
-    });
+    });*/
     /* Style layer: A style layer ties together the source and image and specifies how they are displayed on the map. */
     /*map.addLayer({
         id: "Vessels",
@@ -299,7 +299,6 @@ map.on('click', 'Vessels', function (e) {
         let index = searchVesselFromArray(selectedVessel, vessels);
         if (index != undefined) {
             updateVesselInfo(vessels[index]);
-            console.log(vessels[index]);
 
             let detailsIndex = searchVesselMetadata(vesselDetails, selectedVessel);
 
@@ -370,6 +369,9 @@ $("#filter0").click(function() {
     vesselNumbers = [10, 20, 30, 40, 44, 50, 60, 70, 80, 81, 82, 83, 90, 91, 93, 94, 95, 96, 96, 99];
     vesselFilter[0].value = vesselNumbers;
     invertFilter = true;
+    $("#nameFilter").addClass("hidden");
+    $("#nameFilter").val("");
+    vesselFilter[1].value = "";
     map.getSource('vessels').setData(JSON.parse(GeoJSONvesselCollection(vessels)));
 });
 
@@ -399,6 +401,7 @@ function buttonClicked() {
     vesselNumbers = filterStringVessels();
     vesselFilter[0].value = vesselNumbers;
     invertFilter = false;
+    $("#nameFilter").removeClass("hidden");
     map.getSource('vessels').setData(JSON.parse(GeoJSONvesselCollection(vessels)));
 }
 let nameFilter = $("#nameFilter");
@@ -406,4 +409,25 @@ nameFilter.val("");
 nameFilter.on("input", function () {
     vesselFilter[1].value = nameFilter.val();
     map.getSource('vessels').setData(JSON.parse(GeoJSONvesselCollection(vessels)));
+});
+
+$(window).on('resize', function(){
+    var viewportWidth = $(window).width() / parseFloat($("html").css("font-size"));
+    if (viewportWidth >= 64) {
+        $("#offCanvasBottom").foundation('close');
+
+        //Copy to left off-canvas
+        let bottom = document.getElementById('gridBottom');
+        if (bottom.innerHTML != '') {
+            let left = document.getElementById('gridLeft').innerHTML = bottom.innerHTML;
+            bottom.innerHTML = '';
+        }
+    } else {
+        //Copy to bottom off-canvas
+        let left = document.getElementById('gridLeft');
+        if (left.innerHTML != '') {
+            let bottom = document.getElementById('gridBottom').innerHTML = left.innerHTML;
+            left.innerHTML = '';
+        }
+    }
 });
