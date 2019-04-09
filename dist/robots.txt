@@ -4,5 +4,3 @@
 User-agent: *
 Disallow:
 Disallow: /juna.html
-Disallow: /info.html
-Disallow: /404.html

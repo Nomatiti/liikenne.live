@@ -7,3 +7,5 @@ https://liikenne.live/raide-kartta.html
 https://liikenne.live/terms.html
 https://liikenne.live/HSL-kartta.html
 https://liikenne.live/info-HSL.html
+https://liikenne.live/meri-kartta.html
+https://liikenne.live/info-meri.html
