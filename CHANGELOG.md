@@ -1,3 +1,6 @@
+### 0.7.0 (9.4.2019)
+* Meriliikenteen seuranta lisätty! Maaliikenteen väri muutettu vihreäksi, koska sininen sopii paremmin merilikenteeseen.
+
 ### 0.6.0 (3.3.2019)
 * Maaliikenteen seuranta lisätty!
 
