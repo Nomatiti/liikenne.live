@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" serverName="aws s3">
+  <component name="PublishConfigData" serverName="aws s3" uploadOnCheckin="ebace692-d864-454c-b9e3-fd4ec0f5627f">
     <serverData>
       <paths name="aws s3">
         <serverdata>
@@ -10,5 +10,6 @@
         </serverdata>
       </paths>
     </serverData>
+    <option name="myUploadOnCheckinName" value="aws s3" />
   </component>
 </project>
