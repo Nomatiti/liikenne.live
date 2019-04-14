@@ -61,7 +61,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.5.1/dist/css/foundation.min.css" integrity="sha256-1mcRjtAxlSjp6XJBgrBeeCORfBp/ppyX4tsvpQVCcpA= sha384-b5S5X654rX3Wo6z5/hnQ4GBmKuIJKMPwrJXn52ypjztlnDK2w9+9hSMBz/asy9Gw sha512-M1VveR2JGzpgWHb0elGqPTltHK3xbvu3Brgjfg4cg5ZNtyyApxw/45yHYsZ/rCVbfoO5MSZxB241wWq642jLtA==" crossorigin="anonymous">
     <!-- Compressed JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.5.1/dist/js/foundation.min.js" integrity="sha256-WUKHnLrIrx8dew//IpSEmPN/NT3DGAEmIePQYIEJLLs= sha384-53StQWuVbn6figscdDC3xV00aYCPEz3srBdV/QGSXw3f19og3Tq2wTRe0vJqRTEO sha512-X9O+2f1ty1rzBJOC8AXBnuNUdyJg0m8xMKmbt9I3Vu/UOWmSg5zG+dtnje4wAZrKtkopz/PEDClHZ1LXx5IeOw==" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="css/meri.min.css">
+    <link rel="stylesheet" href="css/meri_v0.7.1.min.css">
 
     <!--<script src="http://www.hivemq.com/demos/websocket-client/js/mqttws31.js" type="text/javascript"></script>-->
     <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js" type="text/javascript"></script>-->
@@ -127,132 +127,49 @@
                         <ul data-close-on-click=false data-close-on-click-inside=false class="submenu menu vertical"
                         data-submenu style="width: 300px">
                             <li>
-                                <label>
-                                    <input id="nameFilter" style="margin: 0.8rem 0 0.4rem 0.8rem;" type="text"
+                                <label id="nameFilter">
+                                    <input id="nameFilterInput" type="text"
                                            placeholder="Suodata nimen avulla">
                                 </label>
                             </li>
                             <li>
-                                <div id="stationsSelect">
-                                    <label for="stationsCheck" id="stationsCheckText">Matkustaja-alus</label>
-                                    <input type="checkbox" id="filter10">
+                                <div class="form-group" id="typeFilterDiv">
+                                    <label for="typeFilter">Alustyyppi:
+                                        <span style="font-size: 0.8rem; color: gray;">(voit valita monta ctrl (mac:
+                                            cmd)
+                                            avulla)</span></label>
+                                    <select class="form-control" id="typeFilter" multiple="">
+                                        <option value="10">Matkustaja-alus</option>
+                                        <option value="20">Matkustaja-autolautta</option>
+                                        <option value="30">Junalautta</option>
+                                        <option value="40">Roro</option>
+                                        <option value="44">Ajoneuvonkuljetusalus</option>
+                                        <option value="50">Konttialus</option>
+                                        <option value="60">Kuiva-bulk</option>
+                                        <option value="70">Kuivalastialus</option>
+                                        <option value="80">Säiliöalus</option>
+                                        <option value="81">Öljysäiliöalus</option>
+                                        <option value="82">Kaasusäiliöalus</option>
+                                        <option value="83">Kemikaalisäiliöalus</option>
+                                        <option value="90">Muu alus</option>
+                                        <option value="91">Hinaaja</option>
+                                        <option value="93">Proomu</option>
+                                        <option value="94">Puskija</option>
+                                        <option value="95">Puskuproomu</option>
+                                        <option value="96">Säiliöproomu</option>
+                                        <option value="97">Muu kuljetuskoneeton alus</option>
+                                        <option value="99">Muu alus</option>
+                                    </select>
+                                    <div id="typeFilterEmpty" style="text-align: right"
+                                          onclick="$('#typeFilter option:selected').prop('selected', false); typeFilterChanged()">Poista
+                                        valinta
+                                    </div>
                                 </div>
                             </li>
                             <li>
-                                <div id="stationsSelect">
-                                    <label for="stationsCheck" id="stationsCheckText">Matkustaja-autolautta</label>
-                                    <input type="checkbox" id="filter20">
-                                </div>
-                            </li>
                             <li>
-                            <div id="stationsSelect">
-                                <label for="stationsCheck" id="stationsCheckText">Junalautta</label>
-                                <input type="checkbox" id="filter30">
-                            </div>
-                        </li>
-                            <li>
-                            <div id="stationsSelect">
-                                <label for="stationsCheck" id="stationsCheckText">Roro</label>
-                                <input type="checkbox" id="filter40">
-                            </div>
-                        </li><li>
-                            <div id="stationsSelect">
-                                <label for="stationsCheck" id="stationsCheckText">Ajoneuvonkuljetusalus</label>
-                                <input type="checkbox" id="filter44">
-                            </div>
-                        </li><li>
-                            <div id="stationsSelect">
-                                <label for="stationsCheck" id="stationsCheckText">Konttialus</label>
-                                <input type="checkbox" id="filter50">
-                            </div>
-                        </li>
-                            <li>
-                            <div id="stationsSelect">
-                                <label for="stationsCheck" id="stationsCheckText">Kuiva-bulk (matkustaja)</label>
-                                <input type="checkbox" id="filter60">
-                            </div>
-                        </li>
-                            <li>
-                            <div id="stationsSelect">
-                                <label for="stationsCheck" id="stationsCheckText">Kuivalastialus</label>
-                                <input type="checkbox" id="filter70">
-                            </div>
-                        </li>
-                            <li>
-                            <div id="stationsSelect">
-                                <label for="stationsCheck" id="stationsCheckText">Säiliöalus</label>
-                                <input type="checkbox" id="filter80">
-                            </div>
-                        </li>
-                            <li>
-                            <div id="stationsSelect">
-                                <label for="stationsCheck" id="stationsCheckText">Öljysäiliöalus</label>
-                                <input type="checkbox" id="filter81">
-                            </div>
-                        </li>
-                            <li>
-                            <div id="stationsSelect">
-                                <label for="stationsCheck" id="stationsCheckText">Kaasusäiliöalus</label>
-                                <input type="checkbox" id="filter82">
-                            </div>
-                        </li>
-                            <li>
-                            <div id="stationsSelect">
-                                <label for="stationsCheck" id="stationsCheckText">Kemikaalisäiliöalus</label>
-                                <input type="checkbox" id="filter83">
-                            </div>
-                        </li>
-                            <li>
-                            <div id="stationsSelect">
-                                <label for="stationsCheck" id="stationsCheckText">Muu alus</label>
-                                <input type="checkbox" id="filter90">
-                            </div>
-                        </li>
-                            <li>
-                            <div id="stationsSelect">
-                                <label for="stationsCheck" id="stationsCheckText">Hinaaja</label>
-                                <input type="checkbox" id="filter91">
-                            </div>
-                        </li>
-                            <li>
-                            <div id="stationsSelect">
-                                <label for="stationsCheck" id="stationsCheckText">Proomu</label>
-                                <input type="checkbox" id="filter93">
-                            </div>
-                        </li>
-                            <li>
-                            <div id="stationsSelect">
-                                <label for="stationsCheck" id="stationsCheckText">Puskija</label>
-                                <input type="checkbox" id="filter94">
-                            </div>
-                        </li>
-                            <li>
-                            <div id="stationsSelect">
-                                <label for="stationsCheck" id="stationsCheckText">Puskuproomu</label>
-                                <input type="checkbox" id="filter95">
-                            </div>
-                        </li>
-                            <li>
-                            <div id="stationsSelect">
-                                <label for="stationsCheck" id="stationsCheckText">Säiliöproomu</label>
-                                <input type="checkbox" id="filter96">
-                            </div>
-                        </li>
-                            <li>
-                            <div id="stationsSelect">
-                                <label for="stationsCheck" id="stationsCheckText">Muu kuljetuskoneeton alus</label>
-                                <input type="checkbox" id="filter97">
-                            </div>
-                        </li>
-                            <li>
-                            <div id="stationsSelect">
-                                <label for="stationsCheck" id="stationsCheckText">Muu alus</label>
-                                <input type="checkbox" id="filter99">
-                            </div>
-                        </li>
-                            <li>
-                                <div id="stationsSelect">
-                                    <label for="stationsCheck" id="stationsCheckText">Luokittelemattomat</label>
+                                <div id="ungategorized">
+                                    <label for="filter0" id="ungategorizedText">Luokittelemattomat</label>
                                     <input type="checkbox" id="filter0">
                                 </div>
                             </li>
@@ -584,8 +501,8 @@
     }
 </script>
 
-<script src="js/funktiot_v0.7.0.js"></script>
-<script src="js/merikartta.js"></script>
+<script src="js/funktiot_v0.7.1.js"></script>
+<script src="js/merikartta_v0.7.1.js"></script>
 
 <script src="js/masonry.min.js"></script>
 </body>

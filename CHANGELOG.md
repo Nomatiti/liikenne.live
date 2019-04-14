@@ -1,3 +1,6 @@
+### 0.7.1 (14.4.2019)
+* Meriliikenteen suodatusta paranneltu, nyt tyyppikoodin valinta toimii myös puhelimella ja koodi ei ole niin sekavaa
+
 ### 0.7.0 (9.4.2019)
 * Meriliikenteen seuranta lisätty! Maaliikenteen väri muutettu vihreäksi, koska sininen sopii paremmin merilikenteeseen.
 

@@ -194,17 +194,16 @@ let tries = 0;
 //websocket: GPS-locations of all vessels and metadata
 
 //Using the HiveMQ public Broker, with a random client Id
-var client = new Paho.MQTT.Client("meri-test.digitraffic.fi", 61619, "myclientid_" + parseInt(Math.random() * 10000, 10));
+var client = new Paho.MQTT.Client("meri.digitraffic.fi", 61619, "myclientid_" + parseInt(Math.random() * 10000, 10));
 
 //Gets  called if the websocket/mqtt connection gets disconnected for any reason
 client.onConnectionLost = function(responseObject) {
     //Depending on your scenario you could implement a reconnect logic here
 
-    //TODO: remove
-    /*gtag('event', 'MQTT-error', {
+    gtag('event', 'MQTT-error', {
         'event_category' : 'Error',
         'event_label' : 'Connection lost'
-    });*/
+    });
 
     if (tries < 4) {
         console.log(tries);
@@ -257,11 +256,10 @@ var options = {
     //Gets Called if the connection could not be established
     onFailure: function(message) {
 
-        //TODO: remove
-        /*gtag('event', 'MQTT-error', {
+        gtag('event', 'MQTT-error', {
             'event_category' : 'Error',
             'event_label' : 'Connection could not establish'
-        });*/
+        });
 
 
         document.getElementById('connectionErrorHeader').innerText = 'Yhteyden muodostamisessa ongelmia';
@@ -321,92 +319,40 @@ map.on('click', 'Vessels', function (e) {
     }
 });
 
-$( "#filter0" ).prop( "checked", false);
-$( "#filter10" ).prop( "checked", false);
-$( "#filter20" ).prop( "checked", false);
-$( "#filter30" ).prop( "checked", false);
-$( "#filter40" ).prop( "checked", false);
-$( "#filter44" ).prop( "checked", false);
-$( "#filter50" ).prop( "checked", false);
-$( "#filter60" ).prop( "checked", false);
-$( "#filter70" ).prop( "checked", false);
-$( "#filter80" ).prop( "checked", false);
-$( "#filter81" ).prop( "checked", false);
-$( "#filter82" ).prop( "checked", false);
-$( "#filter83" ).prop( "checked", false);
-$( "#filter90" ).prop( "checked", false);
-$( "#filter91" ).prop( "checked", false);
-$( "#filter93" ).prop( "checked", false);
-$( "#filter94" ).prop( "checked", false);
-$( "#filter95" ).prop( "checked", false);
-$( "#filter96" ).prop( "checked", false);
-$( "#filter97" ).prop( "checked", false);
-$( "#filter99" ).prop( "checked", false);
+$("#typeFilter option:selected").prop("selected", false);
+
+$("#typeFilter").change(typeFilterChanged);
+
+function typeFilterChanged() {
+    $( "#filter0" ).prop( "checked", false);
+    let filter = $("#typeFilter").val();
+    let vesselTypes = [];
+    filter.forEach(function (element) {
+        vesselTypes.push(parseInt(element));
+    });
+    vesselFilter[0].value = vesselTypes;
+    invertFilter = false;
+    map.getSource('vessels').setData(JSON.parse(GeoJSONvesselCollection(vessels)));
+}
 
 
 
 $("#filter0").click(function() {
-    $( "#filter10" ).prop( "checked", false);
-    $( "#filter20" ).prop( "checked", false);
-    $( "#filter30" ).prop( "checked", false);
-    $( "#filter40" ).prop( "checked", false);
-    $( "#filter44" ).prop( "checked", false);
-    $( "#filter50" ).prop( "checked", false);
-    $( "#filter60" ).prop( "checked", false);
-    $( "#filter70" ).prop( "checked", false);
-    $( "#filter80" ).prop( "checked", false);
-    $( "#filter81" ).prop( "checked", false);
-    $( "#filter82" ).prop( "checked", false);
-    $( "#filter83" ).prop( "checked", false);
-    $( "#filter90" ).prop( "checked", false);
-    $( "#filter91" ).prop( "checked", false);
-    $( "#filter93" ).prop( "checked", false);
-    $( "#filter94" ).prop( "checked", false);
-    $( "#filter95" ).prop( "checked", false);
-    $( "#filter96" ).prop( "checked", false);
-    $( "#filter97" ).prop( "checked", false);
-    $( "#filter99" ).prop( "checked", false);
+    $("#typeFilter option:selected").prop("selected", false);
     vesselNumbers = [10, 20, 30, 40, 44, 50, 60, 70, 80, 81, 82, 83, 90, 91, 93, 94, 95, 96, 96, 99];
     vesselFilter[0].value = vesselNumbers;
     invertFilter = true;
-    $("#nameFilter").addClass("hidden");
-    $("#nameFilter").val("");
+    //$("#nameFilter").addClass("hidden");
+    $("#nameFilterInput").val("");
     vesselFilter[1].value = "";
     map.getSource('vessels').setData(JSON.parse(GeoJSONvesselCollection(vessels)));
 });
 
-$("#filter10").click(buttonClicked);
-$( "#filter20" ).click(buttonClicked);
-$( "#filter30" ).click(buttonClicked);
-$( "#filter40" ).click(buttonClicked);
-$( "#filter44" ).click(buttonClicked);
-$( "#filter50" ).click(buttonClicked);
-$( "#filter60" ).click(buttonClicked);
-$( "#filter70" ).click(buttonClicked);
-$( "#filter80" ).click(buttonClicked);
-$( "#filter81" ).click(buttonClicked);
-$( "#filter82" ).click(buttonClicked);
-$( "#filter83" ).click(buttonClicked);
-$( "#filter90" ).click(buttonClicked);
-$( "#filter91" ).click(buttonClicked);
-$( "#filter93" ).click(buttonClicked);
-$( "#filter94" ).click(buttonClicked);
-$( "#filter95" ).click(buttonClicked);
-$( "#filter96" ).click(buttonClicked);
-$( "#filter97" ).click(buttonClicked);
-$( "#filter99" ).click(buttonClicked);
-
-function buttonClicked() {
-    $( "#filter0" ).prop( "checked", false);
-    vesselNumbers = filterStringVessels();
-    vesselFilter[0].value = vesselNumbers;
-    invertFilter = false;
-    $("#nameFilter").removeClass("hidden");
-    map.getSource('vessels').setData(JSON.parse(GeoJSONvesselCollection(vessels)));
-}
-let nameFilter = $("#nameFilter");
+let nameFilter = $("#nameFilterInput");
 nameFilter.val("");
 nameFilter.on("input", function () {
+    invertFilter = false;
+    $( "#filter0" ).prop( "checked", false);
     vesselFilter[1].value = nameFilter.val();
     map.getSource('vessels').setData(JSON.parse(GeoJSONvesselCollection(vessels)));
 });

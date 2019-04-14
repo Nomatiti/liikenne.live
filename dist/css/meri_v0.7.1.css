@@ -294,7 +294,34 @@ html {
     margin-left: 4.2rem;
     margin-bottom: .5rem;
 }
-
+#typeFilterDiv {
+    padding: 0.4rem 1rem 0rem 1rem;
+}
+#typeFilterEmpty {
+    text-align: right;
+    color: gray;
+    font-size: 0.9rem;
+}
+#typeFilter {
+    height: 50vmin;
+    max-height: 300px;
+}
+#nameFilter {
+    margin: 1rem 1rem 0 1rem;
+}
+#nameFilterInput {
+    width: 100%;
+    max-width: 300px;
+}
+#ungategorized {
+    padding: 0.4rem;
+}
+#ungategorizedText {
+    color: #434343;
+    display: inline;
+    padding-right: 5px;
+    font-size: 100%;
+}
 #map {
     /*padding-left: 0;*/
     /*padding-right: 0;*/
