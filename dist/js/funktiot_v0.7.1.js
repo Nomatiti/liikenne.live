@@ -1267,13 +1267,25 @@ function typecodeToString(code) {
 
 function updateHSLarray(message, topic, HSLarray) {
     //"/hfp/v1/journey/ongoing/bus/0022/00807/4624/2/Tikkurila/13:37/4610206/4/60;25/20/94/23"
+    //"/hfp/v2/journey/ongoing/vp/bus/0055/01216/1069/1/Malmi/7:20/1130106/2/60;24/19/73/44"
     let type = "";
-    if (topic.slice(24, 28) == "bus/") {
+    let Topic = topic.split("/");
+    if (Topic[6] == "bus") {
         type = "Bussi";
-    } else if (topic.slice(24, 28) == "tram") {
+    } else if (Topic[6] == "tram") {
         type = "Raitiovaunu";
-    } else if (topic.slice(24, 29) == "train") {
+    } else if (Topic[6] == "train") {
         type = "Lähijuna";
+    } else if (Topic[6] == "ferry") {
+        type = "lautta";
+    } else if (Topic[6] == "metro") {
+	    type = "metro";
+    } else if (Topic[6] == "ubus") {
+	    type = "bussi";
+    } else if (Topic[6] == "robot") {
+	    type = "robottibussi";
+    } else {
+	    type = "-";
     }
     let object = new HSL(type, message.desi, message.dir, message.oper, message.veh, message.tst, message.spd, message.hdg, message.lat, message.long, message.acc, message.dl, message.odo, message.drst, message.start, topic.split("/")[10]);
 

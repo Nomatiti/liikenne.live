@@ -77,8 +77,9 @@ map.on('style.load', function () {
                     "match",
                     ["get", "Type"],
                     "Bussi", "bus",
-                    "Raitiovaunu", "tram",
+                    "Raitiovaunu", "other",
                     "Lähijuna", "train",
+                    "metro", "tram",
                     "other",
                 ],
                 "text-field": "{Desi}",
@@ -160,7 +161,7 @@ map.on('style.load', function () {
     });*/
 });
 
-var topic = '/hfp/v1/journey/ongoing/+/+/+/+/+/+/+/+/3/#';
+var topic = '/hfp/v2/journey/ongoing/+/+/+/+/+/+/+/+/+/3/#';
 
 const client  = mqtt.connect('wss://mqtt.hsl.fi:443');
 
@@ -173,7 +174,8 @@ let count = 0;
 
 client.on('message', function (topic, message) {
     number ++;
-    const vehicle_position = JSON.parse(message).VP;
+    const Message = JSON.parse(message);
+    const vehicle_position = Message[Object.keys(Message)[0]];
 
     //Skip vehicles with invalid location
     if (!vehicle_position.lat || !vehicle_position.long) {
@@ -213,7 +215,7 @@ $("#6").click(function() {
     $( "#0" ).prop( "checked", false);
     console.log("Geohash level: 0");
     client.unsubscribe(topic);
-    topic = '/hfp/v1/journey/ongoing/+/+/+/+/+/+/+/+/0/#';
+    topic = '/hfp/v2/journey/ongoing/+/+/+/+/+/+/+/+/+/0/#';
     client.subscribe(topic);
 });
 $("#5").click(function() {
@@ -225,7 +227,7 @@ $("#5").click(function() {
     $( "#0" ).prop( "checked", false);
     console.log("Geohash level: 1");
     client.unsubscribe(topic);
-    topic = '/hfp/v1/journey/ongoing/+/+/+/+/+/+/+/+/1/#';
+    topic = '/hfp/v2/journey/ongoing/+/+/+/+/+/+/+/+/+/1/#';
     client.subscribe(topic);
 });
 $("#4").click(function() {
@@ -237,7 +239,7 @@ $("#4").click(function() {
     $( "#0" ).prop( "checked", false);
     console.log("Geohash level: 2");
     client.unsubscribe(topic);
-    topic = '/hfp/v1/journey/ongoing/+/+/+/+/+/+/+/+/2/#';
+    topic = '/hfp/v2/journey/ongoing/+/+/+/+/+/+/+/+/+/2/#';
     client.subscribe(topic);
 });
 $("#3").click(function() {
@@ -249,7 +251,7 @@ $("#3").click(function() {
     $( "#0" ).prop( "checked", false);
     console.log("Geohash level: 3");
     client.unsubscribe(topic);
-    topic = '/hfp/v1/journey/ongoing/+/+/+/+/+/+/+/+/3/#';
+    topic = '/hfp/v2/journey/ongoing/+/+/+/+/+/+/+/+/+/3/#';
     client.subscribe(topic);
 });
 $("#2").click(function() {
@@ -261,7 +263,7 @@ $("#2").click(function() {
     $( "#0" ).prop( "checked", false);
     console.log("Geohash level: 4");
     client.unsubscribe(topic);
-    topic = '/hfp/v1/journey/ongoing/+/+/+/+/+/+/+/+/4/#';
+    topic = '/hfp/v2/journey/ongoing/+/+/+/+/+/+/+/+/+/4/#';
     client.subscribe(topic);
 });
 $("#1").click(function() {
@@ -273,7 +275,7 @@ $("#1").click(function() {
     $( "#0" ).prop( "checked", false);
     console.log("Geohash level: 5");
     client.unsubscribe(topic);
-    topic = '/hfp/v1/journey/ongoing/+/+/+/+/+/+/+/+/5/#';
+    topic = '/hfp/v2/journey/ongoing/+/+/+/+/+/+/+/+/+/5/#';
     client.subscribe(topic);
 });
 $("#0").click(function() {
@@ -285,7 +287,7 @@ $("#0").click(function() {
     $( "#1" ).prop( "checked", false);
     console.log("Geohash level: +");
     client.unsubscribe(topic);
-    topic = '/hfp/v1/journey/ongoing/+/+/+/+/+/+/+/+/+/#';
+    topic = '/hfp/v2/journey/ongoing/+/+/+/+/+/+/+/+/+/+/#';
     client.subscribe(topic);
 });
 
